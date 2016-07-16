@@ -46,7 +46,7 @@ POSTPATH="${BINPATH}/_posts"
 DIST_FOLDER="$POSTPATH"
 
 # Set your blog URL
-BLOG_URL="http://willianjusten.com.br"
+BLOG_URL="https://linonetwo.github.io/"
 
 # Set your assets URL
 ASSETS_URL="assets/img/"
@@ -112,7 +112,7 @@ initpost_content() {
 echo "---"
 echo "layout: post"
 echo "title: \"${POST_TITLE}\""
-echo "date: ${CURRENT_DATE} ${TIME}"
+echo "date: ${CURRENT_DATE} ${TIME} +0800"
 echo "image: '/assets/img/'"
 echo "description:"
 echo "main-class:"
