@@ -73,11 +73,13 @@ const FeedWithData = connect({
   },
 })(Feed);
 ```
+
 接下来 APOLLO 会自动处理 Minimize、Augment、Fetch 的部分，只要实现告诉 APOLLO 你的服务器地址，它就会找出真正需要更新的界面对应的那一小部分请求，处理 GraphQL Schema Decorators，发给服务端。  
 
 下面再看看服务端怎么回应我们的请求。
 ![data flow 2](http://docs.apollostack.com/assets/client-diagrams/4-normalize.png)  
 先用 express、HAPI、Connect 或 koa 接收一下发来的 JSON 格式的请求:  
+
 ```javascript
 app.use('/graphql', (req, res, next) => {
   return apolloServer({
@@ -97,6 +99,7 @@ app.use('/graphql', (req, res, next) => {
 ```
 Schema 来自于这个文件，它在比较高的层次上描述了我们接收和返回的数据长什么样:  
 schema.js
+
 ```javascript
 const Schema = `
 # A discourse Post
@@ -151,7 +154,9 @@ schema {
 `;
 export default Schema;
 ```
+
 resolveFunctions 来自于下面这个文件，它在比较低的层次上干脏活，实际去数据库取数据的就是它们:  
+
 ```javascript
 const resolvers = {
   Post: { // 可以看到跟上面的 Schema 是一一对应的
