@@ -18,11 +18,11 @@ introduction: '介绍一个使用 GraphQL 进行通信的，将数据流和 Reac
 
 ![prior](https://cdn-images-1.medium.com/max/800/1*QH_tgaH0Y9bY5T8Bh3FqVw.png)
 
-GraphQL 是一个能表现出数据层次性，适合 React 这种单页应用结构的数据层模型，FaceBook 发现了 RESTful 数据层模型的不便之处，引领业界通过使用他们开发的 Relay 享受到 GraphQL 带来的 Optimistic Update（点完赞之后不用等网络传输延时直接点亮图标）、Data Diff（你随手发出了一大坨请求，Relay 自动帮你只请求真正需要更新的一小部分数据）、Declarative Data Need（数据需求就声明式地写在 React 组件旁边，前端后台都是声明式的，改需求很好改）。
+GraphQL 是一个能表现出数据层次性，适合 React 这种单页应用结构的数据层模型。FaceBook 发现了 RESTful 数据层模型的不便之处，引领业界通过使用他们开发的 Relay 享受到 GraphQL 带来的 Optimistic Update（点完赞之后不用等网络传输延时直接点亮图标）、Data Diff（你随手发出了一大坨请求，Relay 自动帮你只请求真正需要更新的一小部分数据）、Declarative Data Need（数据需求就声明式地写在 React 组件旁边，前端后台都是声明式的，改需求很好改）。
 
 ![APOLLO](http://docs.apollostack.com/assets/client-diagrams/1-overview.png)  
 
-Meteor 团队有着很丰富的数据流控制经验，他们发现了 Relay 的不便之处，引领业界通过使用他们开发的 APOLLO 享受到更简洁的接口，阅读到更易懂的教程，而且敢用到生产项目里（……）。  
+Meteor 团队有着很丰富的数据流控制经验，他们发现了 Relay 的不便之处，引领业界通过使用他们开发的 APOLLO 享受到更简洁的接口，阅读到更易懂的教程，而且让人们敢用到生产项目里（Relay 很多人至今不敢重用）。  
 
 ![data flow 1](http://docs.apollostack.com/assets/client-diagrams/3-minimize.png)  
 
