@@ -24,6 +24,13 @@ compress_html:
   endings: []
   profile: false
 
+# Conversion
+markdown:    kramdown
+highlighter: rouge
+lsi:         false
+excerpt_separator: "\n\n"
+incremental: false
+
 # Links to include in menu navigation
 # For external links add external: true
 links:
