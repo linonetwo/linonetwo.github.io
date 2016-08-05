@@ -1,3 +1,7 @@
+gems:
+  - jekyll-pandoc
+
+
 # Site settings
 description: A blog of onetwo
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -12,8 +16,7 @@ facebook_username: linonetwo
 github_username:  linonetwo
 
 # Build settings
-markdown: kramdown
-highlighter: null
+markdown: Pandoc
 permalink: /:title/
 
 
