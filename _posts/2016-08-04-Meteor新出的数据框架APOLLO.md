@@ -29,6 +29,7 @@ Meteor 团队有着很丰富的数据流控制经验，他们发现了 Relay 的
 它的**书写**流程从 UI 开始:  
 
 ```javascript
+  
 const Feed = ({ params, feed, loading, loginToken }) => {
   const needsLogin = !loginToken && _.includes(['new', 'unread'], params.type);
 
@@ -81,6 +82,7 @@ const FeedWithData = connect({
 先用 express、HAPI、Connect 或 koa 接收一下发来的 JSON 格式的请求:  
 
 ```javascript
+  
 app.use('/graphql', (req, res, next) => {
   return apolloServer({
     schema: Schema, // 里面写着我们接收什么格式的请求，返回什么结构的数据
@@ -101,6 +103,7 @@ Schema 来自于这个文件，它在比较高的层次上描述了我们接收�
 schema.js
 
 ```javascript
+  
 const Schema = `
 # A discourse Post
 type Post {
@@ -158,6 +161,7 @@ export default Schema;
 resolveFunctions 来自于下面这个文件，它在比较低的层次上干脏活，实际去数据库取数据的就是它们:  
 
 ```javascript
+  
 const resolvers = {
   Post: { // 可以看到跟上面的 Schema 是一一对应的
     topic: (root, args, context) => {
