@@ -62,9 +62,9 @@
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
     <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
 
-    <link href='/assets/themes/google-code-prettify/desert.css' rel='stylesheet' type='text/css' media='all'>
-    <script type='text/javascript' src='/assets/themes/google-code-prettify/prettify.js'></script>
-    <script src="/ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link href='https://cdn.rawgit.com/google/code-prettify/master/styles/desert.css' rel='stylesheet' type='text/css' media='all'>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
     <script>
       $(function() {
         window.prettyPrint && prettyPrint();
