@@ -1,6 +1,3 @@
-gems:
-  - jekyll-pandoc
-
 
 # Site settings
 description: A blog of onetwo
@@ -16,14 +13,10 @@ facebook_username: linonetwo
 github_username:  linonetwo
 
 # Build settings
-markdown: Pandoc
-pandoc:
-  extensions:
-    - normalize
-    - smart
-    - mathjax
-    - csl: _styles/apa.csl
-    - bibliography: bibliography/references.bib
+markdown: kramdown
+kramdown:
+  syntax_highlighter_opts:
+    disable: true
 permalink: /:title/
 
 
