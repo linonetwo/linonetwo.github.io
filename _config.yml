@@ -13,8 +13,10 @@ github_username:  linonetwo
 
 # Build settings
 markdown: kramdown
+kramdown:
+  use_coderay: true
 permalink: /:title/
-highlighter: pygments
+highlighter: coderay
 
 # html minify
 compress_html:
