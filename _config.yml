@@ -24,8 +24,6 @@ pandoc:
     - mathjax
     - csl: _styles/apa.csl
     - bibliography: bibliography/references.bib
-syntax_highlighter_opts:
-  disable: true
 permalink: /:title/
 
 
