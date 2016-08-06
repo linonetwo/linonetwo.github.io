@@ -29,191 +29,251 @@ Meteor 团队有着很丰富的数据流控制经验，他们发现了 Relay 的
 它的书写流程从 UI 开始:  
 
 ```javascript
+// Feed.js
+class Feed extends React.Component {
+  constructor() {
+    super();
+  }
 
-const Feed = ({ params, feed, loading, loginToken }) => {
-  const needsLogin = !loginToken && _.includes(['new', 'unread'], params.type);
+  render() {
+    const { data, mutations } = this.props;
 
-  return (
-    <div>
-      { needsLogin && <div className="needs-login">Please log in to see this page.</div> }
-      { feed.loading && <CircularProgress /> }
-      { !feed.loading && !needsLogin &&
-        feed.result.feed.pages.map((page) => <FeedPage page={page} />) }
-    </div>
-  );
+    static propTypes = {
+      data: React.PropTypes.object,
+      mutations: React.PropTypes.object,
+    };
+
+    return (
+      <div>
+        <FeedContent
+          entries={data.feed || []}
+          currentUser={data.currentUser}
+          onVote={(...args) => mutations.vote(...args)}
+        />
+      </div>
+    );
+  }
 }
 
 // 然后声明式地，告诉 APOLLO 你需要什么数据
 
 const FeedWithData = connect({
-  mapQueriesToProps({ ownProps, state }) {
-    return {
-      feed: {
-        query: `
-          query getFeed($type: FeedType!) {
-            feed(type: $type) {
-              pages {    // 这边用花括号把 topics 括起来，意思是返回的是 {topics: {id, title}} 这样的对象的数组，保存在 pages 里
-                topics { // 可以回到上面看看，pages 数据内的成员都传给了 <FeedPage page={page} />
-                  id     // 这是每次 query 中不变的结构
-                  title
-                }
+  mapQueriesToProps: ({ ownProps }) => ({
+    data: { // 上面 const { data, mutations } = this.props 中的 data 就是来自于这里
+      query: gql`
+        query Feed($type: FeedType!, $offset: Int, $limit: Int) {
+          currentUser { // 这个对应于上面的 data.currentUser，也就是说 currentUser 会作为 data 对象的一个 key
+            login
+          }
+          feed(type: $type, offset: $offset, limit: $limit) { // 这个对应于上面的 data.feed
+            createdAt
+            commentCount
+            score
+            id
+            postedBy {
+              login
+              html_url
+            }
+            vote {
+              vote_value
+            }
+            repository {
+              name
+              full_name
+              description
+              html_url
+              stargazers_count
+              open_issues_count
+              created_at
+              owner {
+                avatar_url
               }
             }
           }
-        `,
-        variables: {
-          type: ownProps.params.type.toUpperCase(), // 对应 query getFeed($type: FeedType!) 中的 $type，这是 query 中可以定制的部分
         }
-      }
-    }
-  },
-  mapStateToProps(state) {
-    return {
-      loginToken: state.loginToken,
-    };
-  },
+      `,
+      variables: {
+        type: (
+          ownProps.params &&
+          ownProps.params.type &&
+          ownProps.params.type.toUpperCase()
+        ) || 'TOP',
+        offset: 0,
+        limit: itemsPerPage,
+      },
+      forceFetch: true,
+    },
+  }),
+
+  mapMutationsToProps: () => ({
+    vote: (repoFullName, type) => ({ // 上面的 onVote={(...args) => mutations.vote(...args)} 中的 mutations.vote 就是来自这里
+      mutation: gql`
+        mutation vote($repoFullName: String!, $type: VoteType!) {
+          vote(repoFullName: $repoFullName, type: $type) {
+            score
+            id
+            vote {
+              vote_value
+            }
+          }
+        }
+      `,
+      variables: {
+        repoFullName,
+        type,
+      },
+    }),
+  }),
 })(Feed);
+export default FeedWithData;
 ```
 
 接下来 APOLLO 会自动处理 Minimize、Augment、Fetch 的部分，只要实现告诉 APOLLO 你的服务器地址，它就会找出真正需要更新的界面对应的那一小部分请求，处理 GraphQL Schema Decorators，发给服务端。  
 
 下面再看看服务端怎么回应我们的请求。
 ![data flow 2](http://docs.apollostack.com/assets/client-diagrams/4-normalize.png)  
+
 先用 express、HAPI、Connect 或 koa 接收一下发来的 JSON 格式的请求:  
 
 ```javascript
+// server.js
+import { schema, resolvers } from './schema';
+import { GitHubConnector } from './github/connector'; // 取数据用的小弟
 
-app.use('/graphql', (req, res, next) => {
-  return apolloServer({
-    schema: Schema, // 里面写着我们接收什么格式的请求，返回什么结构的数据
-    resolvers: resolveFunctions,
-    connectors: Connectors,
+app.use('/graphql', apolloServer((req) => {
+
+  const gitHubConnector = new GitHubConnector({
+    clientId: GITHUB_CLIENT_ID,
+    clientSecret: GITHUB_CLIENT_SECRET,
+  });
+
+  return {
     graphiql: true,
-    // TODO: obviously don't do this statically. take it from req...
-    context: {
-      loginToken: req.headers.authorization
+    pretty: true,
+    resolvers, // 为 Schema 取数据的秘书
+    schema,    // 定义数据的大佬
+    context: { // 在秘书取数据的时候传给秘书的档案，也就是在 graphQL 解析的时候传给 resolvers 的一个参数
+      user,
+      Repositories: new Repositories({ connector: gitHubConnector }), // Connector 就是数据库驱动，比如你用 Neo4j
+      Users: new Users({ connector: gitHubConnector }), // 那它就可以是 neo4j-driver 再包装一下的结果，所以 Connector 可以在多个项目之间复用
+      Entries: new Entries(), // new 出来的 Entries 是 Model，也就是打包好的一堆操作 connector 的函数
+      Comments: new Comments(), // 在介绍完 schema 和 resolver 之后我们再来看它们
     },
-    allowUndefinedInResolve: false,
-    printErrors: true,
-  })(req, res, next);
-});
+  };
+}));
 
 ```
+
+我们传入了 resolvers、schema 和 context，它们从抽象到具体，从描述我们接收和返回的数据，到实际操作数据库。  
+下面我们来分别看看它们长什么样。  
+
 Schema 来自于这个文件，它在比较高的层次上描述了我们接收和返回的数据长什么样:  
-schema.js
 
 ```javascript
-
-const Schema = `
-# A discourse Post
-type Post {
-  id: Int
-  created_at: String // 巴拉巴拉一大堆
-  cooked: String
-  updated_at: String
-  reply_count: Int
-  reads: Int
-  score: Int
-  version: Int
-  can_edit: Boolean
-  can_delete: Boolean
-  can_recover: Boolean
-  can_wiki: Boolean
-  raw: String
-  wiki: Boolean
-  user_id: Int
-  category_id: Int
-  username: String
-  topic: Topic
+// schema.js
+const schema = [`
+enum FeedType { # 先定义数据类型
+  HOT
+  NEW
+  TOP
 }
-# A discourse Topic
-type Topic {
-  id: String
-  title: String // 也巴拉巴拉一大堆，略。具体要写什么，这个有趣的问题留给读者作为证明
-  posts: PaginatedPostList
+type Query {
+  # To display the current user on the submission page, and the navbar
+  currentUser: User
+  # For the home page, the offset arg is optional to get a new page of the feed
+  feed(type: FeedType!, offset: Int, limit: Int): [Entry] # 然后把类型作为组件用在别的类型里，就像 React 一样
 }
 
-# A paginated list of posts
-type PaginatedPostList {
-  pages(page: Int, numPages: Int): [PostListPage]
+# Type of vote
+enum VoteType {
+  UP
+  DOWN
+  CANCEL
 }
-
-# One page of discourse posts
-type PostListPage {
-  posts: [Post]
+type Mutation {
+  # Vote on a repository
+  vote(repoFullName: String!, type: VoteType!): Entry
 }
-
-type RootQuery {
-  allPosts: [Post]
-  allTopics: [Topic]
-  onePost(id: ID): Post
-  oneTopic(id: ID): Topic
-  feed(type: FeedType!, page: Int, numPages: Int): PaginatedTopicList
-}
-
 schema {
-  query: RootQuery
+  query: Query
+  mutation: Mutation
 }
-`;
-export default Schema;
+`];
+export schema;
 ```
 
-resolveFunctions 来自于下面这个文件，它在比较低的层次上干脏活，实际去数据库取数据的就是它们:  
+resolvers 来自于下面这个对象，我们把它也放在 Schema.js 里，它在比较低的层次上干脏活，实际去数据库取数据的就是它们。之所以它也被放在 Schema.js 里，是因为 schema 定义了获取、改变数据需要什么样格式的输入输出，而 resolvers 就是在 js 的层面上实现了这一点，放在一起好参照、修改:  
 
 ```javascript
-
+// schema.js
 const resolvers = {
-  Post: { // 可以看到跟上面的 Schema 是一一对应的
-    topic: (root, args, context) => {
-      return context.connectors.Discourse._fetchEndpoint({
-        url: ({ id }) => `/t/${id}`,
-      }, { id: root.topic_id });
+  Query: {
+    currentUser(_, __, context) { // 上面 app.use('/graphql', apolloServer((req) => { 那边返回了一个 context ，就会传到这
+      return context.user;
     },
-  },
-  Topic: { // 建议先写 Schema 再写 resolveFunctions，遵循从抽象到具体的书写顺序
-    posts: (root, args, context) => {
-      return context.connectors.Discourse._fetchEndpoint({
-        url: ({ id }) => `/t/${id}.json`,
-        map: (data) => ({ posts: data.post_stream.stream, topicId: data.id }),
-      }, { id: root.id });
-    },
-  },
-  PaginatedPostList: { // 本例仅作示意，意会，禁止复制黏贴
-    pages: ({ posts, topicId }, args, context) => {
-      return context.connectors.Discourse.getPaginatedPosts(posts, args, topicId);
-    },
-  },
-  PostListPage: { // 和其他所有 GraphQL Tool 实现一样，你可以在这边返回一个 Promise，只要里面装着的对象格式与 Schema 里定义的相同
-    posts(list) { // 你返回一个 thenable Monad 都可以
-      return list.posts;
-    },
-  },
+    feed(_, { type, offset, limit }, context) {
+      const protectedLimit = (limit < 1 || limit > 10) ? 10 : limit;
 
-  RootQuery: {
-    feed(_, { type, ...args }, context){
-      return context.connectors.Discourse.getPagesWithParams(`/${type.toLowerCase()}`, args);
+      return context.Entries.getForFeed(type, offset, protectedLimit);
     },
-    allPosts: (_, args, context) => {
-      return context.connectors.Discourse._fetchEndpoint({
-        url: '/posts',
-        map: (data) => data.latest_posts,
-      }, args);
-    },
-    allTopics() {
-      throw new Error('AuthenticatedQuery.oneCategory not implemented'); // 例子来自官网，作者好像跑去写 APOLLO 本体了，例子就嗷嗷待哺等 PR
-    },
+  },
+  Mutation: {
+    vote(_, { repoFullName, type }, context) {
+      if (! context.user) {
+        throw new Error('Must be logged in to vote.');
+      }
+      const voteValue = {
+        UP: 1,
+        DOWN: -1,
+        CANCEL: 0,
+      }[type];
 
-    onePost: (_, args, context) => {
-      return context.connectors.Discourse._fetchEndpoint({
-        url: ({ id }) => `/posts/${id}`,
-      }, args);
+      return context.Entries.voteForEntry( // 这边就是在操作数据库了，你应该也看出来了，所谓 Mutation 就是 CRUD 中的 CUD 三类操作的统称
+        repoFullName,
+        voteValue,
+        context.user.login
+      ).then(() => (
+        context.Entries.getByRepoFullName(repoFullName)
+      ));
     },
-    oneTopic: (_, args, context) => {
-      return context.connectors.Discourse._fetchEndpoint({
-        url: ({ id }) => `/t/${id}`,
-      }, args);
-    },
-  }
+  },
 };
-export default resolvers;
+export resolvers;
+```
+
+而 Connectors 来自图下面的这个文件，resolveFunctions 通过它来与数据库沟通。
+比如说我们项目中用到了 MongoDB 和 MySQL 的话，我们可以用 APOLLO 社区里分享的，别人写的 SQL connector 和 MongoDB connector 来连接数据库，然后在 Authors 和 Posts 两个 Model 里面使用它们，进行再一次抽象，这样在 Schema.js 里我们就不用再关心使用的是什么数据库了，完美解耦。  
+![Model and Connectors](https://github.com/apollostack/graphql-tools/raw/master/connector-model-diagram.png)  
+
+希望你还记得，我们上面传了一个 context 给 APOLLO 服务器中间件:  
+```javascript
+// from server.js
+context: { // 在秘书取数据的时候传给秘书的档案，也就是在 graphQL 解析的时候传给 resolvers 的一个参数
+  user,
+  Repositories: new Repositories({ connector: gitHubConnector }), // Connector 就是数据库驱动，比如你用 Neo4j
+  Users: new Users({ connector: gitHubConnector }), // 那它就可以是 neo4j-driver 再包装一下的结果，所以 Connector 可以在多个项目之间复用
+  Entries: new Entries(), // new 出来的 Entries 是 Model，也就是打包好的一堆操作 connector 的函数
+  Comments: new Comments(), // 在介绍完 schema 和 resolver 之后我们再来看它们
+},
+```
+
+由于在我们使用的示例代码中只用到了 `context.Entries.getByRepoFullName(repoFullName)` ，没用到 Repositories 和 Users，我们分开介绍一下 gitHubConnector（connector）和 Entries（Model）。
+
+```javascript
+// gitHubConnector.js
+export class GitHubConnector {
+  constructor({ clientId, clientSecret } = {}) {
+    this.loader = new DataLoader(this.fetch.bind(this), {
+      // The GitHub API doesn't have batching, so we should send requests as
+      // soon as we know about them
+      batch: false,
+    });
+  }
+
+  get(path) {
+    return this.loader.load(GITHUB_API_ROOT + path);
+  }
+
+  // ... 还有一些我们暂时用不到的函数
+}
 ```
