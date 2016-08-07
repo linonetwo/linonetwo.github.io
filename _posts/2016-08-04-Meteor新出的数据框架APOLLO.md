@@ -18,26 +18,25 @@ introduction: '介绍一个使用 GraphQL 进行通信的，将数据流和 Reac
 
 ![prior](https://cdn-images-1.medium.com/max/800/1*QH_tgaH0Y9bY5T8Bh3FqVw.png)
 
-GraphQL 是一个能表现出数据层次性，适合 React 这种单页应用结构的数据层模型。FaceBook 发现了 RESTful 数据层模型的不便之处，引领业界通过使用他们开发的 Relay 享受到 GraphQL 带来的 Optimistic Update（点完赞之后不用等网络传输延时直接点亮图标）、Data Diff（你随手发出了一大坨请求，Relay 自动帮你只请求真正需要更新的一小部分数据）、Declarative Data Need（数据需求就声明式地写在 React 组件旁边，前端后台都是声明式的，改需求很好改）。
+GraphQL 是一个能表现出数据层次性，适合 React 这种单页应用结构的数据层模型。FaceBook 发现了 RESTful 数据层模型的不便之处，引领业界通过使用他们开发的 Relay 享受到 GraphQL 带来的 Optimistic Update（点完赞之后不用等网络传输延时直接点亮图标）、Data Diff（你随手发出了一大坨请求，Relay 自动帮你只请求真正需要更新的一小部分数据）、Declarative Data Need（数据需求就声明式地写在 React 组件旁边，前端后台都是声明式的，改需求很好改）。这不是一篇介绍 GraphQL 的文章，是一篇介绍怎么用好 GraphQL 的文章，如果你不是很清楚 GraphQL 的写法，请看我以前写的[中文教程](https://github.com/linonetwo/Relay-Tutorial-Chinese/blob/master/Relay-HelloWorld%E6%95%99%E7%A8%8B/Relay-HelloWorld%E7%AC%94%E8%AE%B01.md)（已TJ）。
 
 ![APOLLO](http://docs.apollostack.com/assets/client-diagrams/1-overview.png)  
 
-Meteor 团队有着很丰富的数据流控制经验，他们发现了 Relay 的不便之处，引领业界通过使用他们开发的 APOLLO 享受到更简洁的接口，阅读到更易懂的教程，而且让人们敢用到生产项目里（Relay 很多人至今不敢重用）。  
+Meteor 团队有着很丰富的数据流控制经验，他们发现了 Relay 的不便之处，引领业界通过使用他们开发的 APOLLO 享受到更简洁的接口，阅读到[更易懂的教程](http://docs.apollostack.com/index.html)，而且让人们敢用到生产项目里。  
 
 ![data flow 1](http://docs.apollostack.com/assets/client-diagrams/3-minimize.png)  
 
-它的书写流程从 UI 开始:  
+它的书写流程从 UI 开始，这里使用了 HOC，和 Redux、Relay 很像:  
 
 ```javascript
 // Feed.js
-class Feed extends React.Component {
+class Feed extends React.Component { // 这是一个显示信息流的 React 组件
   constructor() {
     super();
   }
 
   render() {
-    const { data, mutations } = this.props;
-
+    const { data, mutations } = this.props; // 从 APOLLO 的 HOC 中传来的数据（data）和更新后台的函数（mutation）
     static propTypes = {
       data: React.PropTypes.object,
       mutations: React.PropTypes.object,
@@ -47,8 +46,8 @@ class Feed extends React.Component {
       <div>
         <FeedContent
           entries={data.feed || []}
-          currentUser={data.currentUser}
-          onVote={(...args) => mutations.vote(...args)}
+          currentUser={data.currentUser} // 绑定数据
+          onVote={(...args) => mutations.vote(...args)} // 绑定函数
         />
       </div>
     );
@@ -105,6 +104,7 @@ const FeedWithData = connect({
     },
   }),
 
+  //还有你想怎么更新后台数据
   mapMutationsToProps: () => ({
     vote: (repoFullName, type) => ({ // 上面的 onVote={(...args) => mutations.vote(...args)} 中的 mutations.vote 就是来自这里
       mutation: gql`
@@ -119,7 +119,7 @@ const FeedWithData = connect({
         }
       `,
       variables: {
-        repoFullName,
+        repoFullName, // 这些参数就从  mutations.vote(...args) 的 ...arg 中获得
         type,
       },
     }),
@@ -128,7 +128,7 @@ const FeedWithData = connect({
 export default FeedWithData;
 ```
 
-接下来 APOLLO 会自动处理 Minimize、Augment、Fetch 的部分，只要实现告诉 APOLLO 你的服务器地址，它就会找出真正需要更新的界面对应的那一小部分请求，处理 GraphQL Schema Decorators，发给服务端。  
+接下来 APOLLO 会自动处理 Minimize、Augment、Fetch 的部分，也就是说，只要实现告诉 APOLLO 你的服务器地址，它就会自动找出真正需要更新的界面对应的那一小部分请求，处理 GraphQL Schema Decorators，打包请求，发给服务端。  
 
 下面再看看服务端怎么回应我们的请求。
 ![data flow 2](http://docs.apollostack.com/assets/client-diagrams/4-normalize.png)  
@@ -185,7 +185,7 @@ type Query {
 }
 
 # Type of vote
-enum VoteType {
+enum VoteType { # 这是经典的 GraphQL 写法，希望你看得懂
   UP
   DOWN
   CANCEL
@@ -202,13 +202,13 @@ schema {
 export schema;
 ```
 
-resolvers 来自于下面这个对象，我们把它也放在 Schema.js 里，它在比较低的层次上干脏活，实际去数据库取数据的就是它们。之所以它也被放在 Schema.js 里，是因为 schema 定义了获取、改变数据需要什么样格式的输入输出，而 resolvers 就是在 js 的层面上实现了这一点，放在一起好参照、修改:  
+resolvers 来自于下面这个对象，我们把它也放在 Schema.js 里，它在比较低的层次上干脏活，实际去数据库取数据的就是它们。之所以它也被放在 Schema.js 里，是因为 schema 定义了获取、改变数据需要什么样格式的输入输出，但它本身没法去取数据对吧，resolvers 就是在 javascript 的层面上实现了这一点。俩兄弟放在一起好参照、修改:  
 
 ```javascript
 // schema.js
 const resolvers = {
   Query: {
-    currentUser(_, __, context) { // 上面 app.use('/graphql', apolloServer((req) => { 那边返回了一个 context ，就会传到这
+    currentUser(_, __, context) { // 上面 server.js 里， app.use('/graphql', apolloServer((req) => { 那边返回了一个 context ，就会传到这
       return context.user;
     },
     feed(_, { type, offset, limit }, context) {
@@ -228,7 +228,7 @@ const resolvers = {
         CANCEL: 0,
       }[type];
 
-      return context.Entries.voteForEntry( // 这边就是在操作数据库了，你应该也看出来了，所谓 Mutation 就是 CRUD 中的 CUD 三类操作的统称
+      return context.Entries.voteForEntry( // 这边就是在操作数据库了，所谓 Mutation 就是 CRUD 中的 CUD 三类操作的统称
         repoFullName,
         voteValue,
         context.user.login
@@ -280,7 +280,7 @@ export class GitHubConnector { // connector 一般是一个类
   // ... 还有一些我们暂时用不到的函数
 }
 ```
-用起来是这样的:
+这个 GitHubConnector 用起来是这样的:
 ```javascript
 // model.js
 export class Repositories {
@@ -310,3 +310,8 @@ export class Entries {
     return mapNullColsToZero(query);
   }
 }
+```
+以上就是 GraphQL Server 里需要写的内容。  
+由此，我们就了解了 UI Component 和 GraphQL Server 的写法，请看下图:  
+![flex](http://docs.apollostack.com/assets/client-diagrams/2-map.png)  
+其余部分就是 APOLLO 的工作了。  
