@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Meteor新出的数据框架APOLLO"
+title: "Meteor推出的数据框架APOLLO"
 date: 2016-08-04 22:29:00 +0800
 image: 'blog-author.jpg'
 description: 'APOLLO 可以替代 Relay 和 Redux'
