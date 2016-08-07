@@ -257,23 +257,56 @@ context: { // 在秘书取数据的时候传给秘书的档案，也就是在 gr
 },
 ```
 
-由于在我们使用的示例代码中只用到了 `context.Entries.getByRepoFullName(repoFullName)` ，没用到 Repositories 和 Users，我们分开介绍一下 gitHubConnector（connector）和 Entries（Model）。
+关于 Model，在我们使用的示例代码中只用到了 `context.Entries.getByRepoFullName(repoFullName)` 这一个不带 Connector 的 Model，没用到 Repositories 和 Users 这两个带 gitHubConnector 的 Model，所以我们只好分开介绍一下 gitHubConnector（connector）和 Entries（Model）。
 
 ```javascript
 // gitHubConnector.js
-export class GitHubConnector {
-  constructor({ clientId, clientSecret } = {}) {
-    this.loader = new DataLoader(this.fetch.bind(this), {
+export class GitHubConnector { // connector 一般是一个类
+  constructor({ clientId, clientSecret } = {}) { // connector 中会进行一些验证操作，所以要向构造器传入登陆信息或验证令牌等
+    // ...我想到了一些精彩的验证操作，但空位太小写不下了
+
+    this.loader = new DataLoader(this.fetch.bind(this), { // 然后搞一个 DataLoader
+      // DataLoader 第一个参数是一个函数，它接受一个 id（或其它能作为主键的东西） ，然后用这个 id 向数据库或 API 请求数据，并 cache 起来
+      // 它是 Facebook 开发用来配合 GraphQL 后台的包，请看 https://github.com/facebook/dataloader
       // The GitHub API doesn't have batching, so we should send requests as
       // soon as we know about them
       batch: false,
     });
   }
 
-  get(path) {
+  get(path) { // 然后在其他更具体的取数据的函数里，用这个 DataLoader 取数据
     return this.loader.load(GITHUB_API_ROOT + path);
   }
-
   // ... 还有一些我们暂时用不到的函数
 }
 ```
+用起来是这样的:
+```javascript
+// model.js
+export class Repositories {
+  constructor({ connector }) { // connector 会被作为参数传给 Model
+    this.connector = connector;
+  }
+
+  getByFullName(fullName) { // 然后你再用这个 connector 提供的函数来取数据
+    return this.connector.get(`/repos/${fullName}`);
+  }
+}
+```
+有人可能要问了，这样强行解耦，会不会有一种，钦定的感觉啊？  
+事实上你完全可以在 resolver 里就直接连接数据库，完全不用模块化地分成几个部分，但这样的话，写来写去的代码啊，就乃衣服。  
+不过 Connector 这一层一般可以直接用数据库相关的 npm 包:  
+```javascript
+// model.js
+export class Entries {
+  getByRepoFullName(name) {
+    // No need to batch
+    const query = knex('entries') // knex 是一个关系型数据库的连接器，可以看到这边我们并不用自己写一个 Connector，直接用的是 npm 包
+      .modify(addSelectToEntryQuery)
+      .where({
+        repository_name: name,
+      })
+      .first();
+    return mapNullColsToZero(query);
+  }
+}
