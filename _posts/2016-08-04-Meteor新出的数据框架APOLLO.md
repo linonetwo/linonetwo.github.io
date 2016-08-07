@@ -61,15 +61,15 @@ const FeedWithData = connect({
     data: { // 上面 const { data, mutations } = this.props 中的 data 就是来自于这里
       query: gql`
         query Feed($type: FeedType!, $offset: Int, $limit: Int) {
-          currentUser { // 这个对应于上面的 data.currentUser，也就是说 currentUser 会作为 data 对象的一个 key
+          currentUser { # 这个对应于上面的 data.currentUser，也就是说 currentUser 会作为 data 对象的一个 key
             login
           }
-          feed(type: $type, offset: $offset, limit: $limit) { // 这个对应于上面的 data.feed
+          feed(type: $type, offset: $offset, limit: $limit) { # 这个对应于上面的 data.feed
             createdAt
             commentCount
             score
             id
-            postedBy {
+            postedBy { # 都是经典的 GraphQL 写法
               login
               html_url
             }
@@ -100,7 +100,7 @@ const FeedWithData = connect({
         offset: 0,
         limit: itemsPerPage,
       },
-      forceFetch: true,
+      forceFetch: true, // 一般基于 GraphQL 的框架都会自动 cache 获取的数据，因为应用的不同角落可能会用到同一个数据。forceFetch 则表示别 cache
     },
   }),
 
@@ -137,34 +137,36 @@ export default FeedWithData;
 
 ```javascript
 // server.js
-import { schema, resolvers } from './schema';
 import { GitHubConnector } from './github/connector'; // 取数据用的小弟
 
-app.use('/graphql', apolloServer((req) => {
+import { schema, resolvers } from './schema';
+import { makeExecutableSchema } from 'graphql-tools';
+const executableSchema = makeExecutableSchema({
+  typeDefs: schema,
+  resolvers,
+});
 
+app.use('/graphql', apolloExpress((req) => {
   const gitHubConnector = new GitHubConnector({
     clientId: GITHUB_CLIENT_ID,
     clientSecret: GITHUB_CLIENT_SECRET,
   });
 
   return {
-    graphiql: true,
-    pretty: true,
-    resolvers, // 为 Schema 取数据的秘书
-    schema,    // 定义数据的大佬
-    context: { // 在秘书取数据的时候传给秘书的档案，也就是在 graphQL 解析的时候传给 resolvers 的一个参数
+    schema: executableSchema,
+    context: {
       user,
-      Repositories: new Repositories({ connector: gitHubConnector }), // Connector 就是数据库驱动，比如你用 Neo4j
-      Users: new Users({ connector: gitHubConnector }), // 那它就可以是 neo4j-driver 再包装一下的结果，所以 Connector 可以在多个项目之间复用
-      Entries: new Entries(), // new 出来的 Entries 是 Model，也就是打包好的一堆操作 connector 的函数
-      Comments: new Comments(), // 在介绍完 schema 和 resolver 之后我们再来看它们
+      Repositories: new Repositories({ connector: gitHubConnector }),
+      Users: new Users({ connector: gitHubConnector }),
+      Entries: new Entries(),
+      Comments: new Comments(),
     },
   };
 }));
 
 ```
 
-我们传入了 resolvers、schema 和 context，它们从抽象到具体，从描述我们接收和返回的数据，到实际操作数据库。  
+我们传入了 resolvers 和 schema 合体而成的 executableSchema，以及一个 context，executableSchema 描述了我们接收和返回的数据，context 是实际操作数据库的工具。  
 下面我们来分别看看它们长什么样。  
 
 Schema 来自于这个文件，它在比较高的层次上描述了我们接收和返回的数据长什么样:  
@@ -314,4 +316,6 @@ export class Entries {
 以上就是 GraphQL Server 里需要写的内容。  
 由此，我们就了解了 UI Component 和 GraphQL Server 的写法，请看下图:  
 ![flex](http://docs.apollostack.com/assets/client-diagrams/2-map.png)  
-其余部分就是 APOLLO 的工作了。  
+其余部分就是 APOLLO 的工作了，它将返回的数据[放在 Redux 里](http://docs.apollostack.com/apollo-client/redux.html)，然后更新 UI。  
+
+如果你正在做一个初期 demo，数据需求快速变动，你可以试试 APOLLO; 如果你正在重构一个大型应用，其数据依赖错综复杂，你也可试试 APOLLO。  
