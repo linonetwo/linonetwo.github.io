@@ -282,7 +282,9 @@ export class GitHubConnector { // connector 一般是一个类
   // ... 还有一些我们暂时用不到的函数
 }
 ```
-这个 GitHubConnector 用起来是这样的:
+
+这个 GitHubConnector 用起来是这样的:  
+
 ```javascript
 // model.js
 export class Repositories {
@@ -295,9 +297,11 @@ export class Repositories {
   }
 }
 ```
+
 有人可能要问了，这样强行解耦，会不会有一种，钦定的感觉啊？  
 事实上你完全可以在 resolver 里就直接连接数据库，完全不用模块化地分成几个部分，但这样的话，写来写去的代码啊，就乃衣服。  
 不过 Connector 这一层一般可以直接用数据库相关的 npm 包:  
+
 ```javascript
 // model.js
 export class Entries {
@@ -313,6 +317,7 @@ export class Entries {
   }
 }
 ```
+
 以上就是 GraphQL Server 里需要写的内容。  
 由此，我们就了解了 UI Component 和 GraphQL Server 的写法，请看下图:  
 ![flex](http://docs.apollostack.com/assets/client-diagrams/2-map.png)  
