@@ -248,6 +248,7 @@ export resolvers;
 ![Model and Connectors](https://github.com/apollostack/graphql-tools/raw/master/connector-model-diagram.png)  
 
 希望你还记得，我们上面传了一个 context 给 APOLLO 服务器中间件:  
+
 ```javascript
 // from server.js
 context: { // 在秘书取数据的时候传给秘书的档案，也就是在 graphQL 解析的时候传给 resolvers 的一个参数
