@@ -11,6 +11,8 @@ $padding-title-header
     background #fff
 .post-content
     padding rem(40px) 0
+        @media screen and (max-width: 900px)
+            padding 0px
     img
         max-width 100%
         margin rem(30px) auto
@@ -118,12 +120,6 @@ $padding-title-header
     td.gutter.gl
         padding-right rem(25px)
         line-height rem(24px)
-
-@media screen and (max-width: 600px) {
-  .post-content {
-    padding: 0px;
-  }
-}
 
 .tag-title
     mainFont(300)
