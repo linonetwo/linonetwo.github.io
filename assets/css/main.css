@@ -863,6 +863,12 @@ main {
 	padding: 2.5rem 15rem;
 }
 
+@media (max-width: 960px) {
+  .post-content {
+    padding: 0px;
+  }
+}
+
 .post-content img {
 	max-width: 100%;
 	margin: 1.875rem auto;
