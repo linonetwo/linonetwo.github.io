@@ -467,3 +467,7 @@ export default class HouTaiDaShuConnector {
 而这种 client-side-graphql-server 的做法也很适合控制 IOT 设备，毕竟在 IOT 设备中架设 server-side-graphql-server 是不现实的，而用 RESTful API 去写物联网控制会显得较为臃肿，在客户端将这些数据转变为 GraphQL 是一条可行的道路。  
 
 对内容有任何疑问，可以加 China GraphQL User Group 群 302490951 交流。比如有同志看我以前写了篇 Relay 的教程就问我 Relay 好不好用，我都知无不言：「难用啊，所以现在我改用 ApolloStack 了」
+
+## 参考及思路讨论
+
+[Wrapping a REST API in GraphQL apollo-client issue #379](https://github.com/apollostack/apollo-client/issues/379)
