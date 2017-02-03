@@ -11,7 +11,7 @@ tags:
 - Relay
 - React
 - graphQL
-categories:
+categories: Review
 twitter_text:
 introduction: '介绍一个使用 GraphQL 进行通信的，将数据流和 React 界面进行干净漂亮的绑定的工具: APOLLO'
 ---
