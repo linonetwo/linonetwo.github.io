@@ -4,7 +4,7 @@ title: "把REST包装成GraphQL"
 date: 2016-10-02 13:27:20 +0800
 image: 'blog-author.jpg'
 description: '用更舒心的API'
-main-class: 'frontEnd'
+main-class: 'frontend'
 color: '#66CCFF'
 tags:
 - Redux
