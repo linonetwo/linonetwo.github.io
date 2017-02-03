@@ -15,10 +15,13 @@ categories: Review
 twitter_text:
 introduction: '介绍一个使用 GraphQL 进行通信的，将数据流和 React 界面进行干净漂亮的绑定的工具: APOLLO'
 ---
+# APOLLO GraphQL
+
+GraphQL 是一个能表现出数据层次性，适合 React 这种单页应用结构的数据层模型。
 
 ![prior](https://cdn-images-1.medium.com/max/800/1*QH_tgaH0Y9bY5T8Bh3FqVw.png)
 
-GraphQL 是一个能表现出数据层次性，适合 React 这种单页应用结构的数据层模型。FaceBook 发现了 RESTful 数据层模型的不便之处，引领业界通过使用他们开发的 Relay 享受到 GraphQL 带来的 Optimistic Update（点完赞之后不用等网络传输延时直接点亮图标）、Data Diff（你随手发出了一大坨请求，Relay 自动帮你只请求真正需要更新的一小部分数据）、Declarative Data Need（数据需求就声明式地写在 React 组件旁边，前端后台都是声明式的，改需求很好改）。这不是一篇介绍 GraphQL 的文章，是一篇介绍怎么用好 GraphQL 的文章，如果你不是很清楚 GraphQL 的写法，请看我以前写的[中文教程](https://github.com/linonetwo/Relay-Tutorial-Chinese/blob/master/Relay-HelloWorld%E6%95%99%E7%A8%8B/Relay-HelloWorld%E7%AC%94%E8%AE%B01.md)（已TJ）。
+FaceBook 发现了 RESTful 数据层模型的不便之处，引领业界通过使用他们开发的 Relay 享受到 GraphQL 带来的 Optimistic Update（点完赞之后不用等网络传输延时直接点亮图标）、Data Diff（你随手发出了一大坨请求，Relay 自动帮你只请求真正需要更新的一小部分数据）、Declarative Data Need（数据需求就声明式地写在 React 组件旁边，前端后台都是声明式的，改需求很好改）。这不是一篇介绍 GraphQL 的文章，是一篇介绍怎么用好 GraphQL 的文章，如果你不是很清楚 GraphQL 的写法，请看我以前写的[中文教程](https://github.com/linonetwo/Relay-Tutorial-Chinese/blob/master/Relay-HelloWorld%E6%95%99%E7%A8%8B/Relay-HelloWorld%E7%AC%94%E8%AE%B01.md)（已TJ）。
 
 ![APOLLO](http://docs.apollostack.com/assets/client-diagrams/1-overview.png)  
 
