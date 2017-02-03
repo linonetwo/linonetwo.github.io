@@ -4,7 +4,7 @@ title: "把GraphQL转换成Neo4j的Cypher"
 date: 2016-12-25 13:27:20 +0800
 image: 'blog-author.jpg'
 description: '不用写数据库请求'
-main-class: 'frontEnd'
+main-class: 'backend'
 color: '#66CCFF'
 tags:
 - Redux
