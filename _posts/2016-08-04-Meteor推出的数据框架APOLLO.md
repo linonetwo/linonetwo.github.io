@@ -248,7 +248,7 @@ export resolvers;
 
 而 Connectors 来自图下面的这个文件，resolveFunctions 通过它来与数据库沟通。
 比如说我们项目中用到了 MongoDB 和 MySQL 的话，我们可以用 APOLLO 社区里分享的，别人写的 SQL connector 和 MongoDB connector 来连接数据库，然后在 Authors 和 Posts 两个 Model 里面使用它们，进行再一次抽象，这样在 Schema.js 里我们就不用再关心使用的是什么数据库了，完美解耦。  
-![Model and Connectors](https://github.com/apollostack/graphql-tools/raw/master/connector-model-diagram.png)  
+![Model and Connectors](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/graphql/connector-model-diagram.png)  
 
 希望你还记得，我们上面传了一个 context 给 APOLLO 服务器中间件:  
 
