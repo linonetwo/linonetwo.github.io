@@ -1,5 +1,8 @@
 {
-    "MD013": false,
-    "MD033": false,
-    "MD009": { "br_spaces": 2 }
+  "MD012": false,
+  "MD013": false,
+  "MD009": {
+    "br_spaces": 2
+  },
+  "MD033": false
 }
