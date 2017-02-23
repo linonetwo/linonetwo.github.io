@@ -48,7 +48,19 @@ React 开发的单页面应用，顾名思义，有着很多很多的页面（�
 
 ![powerload](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/powerload.jpg)
 
+↑ 它由一个 ```<AnimatedCircularProgress />``` 和多个 ```<Text />``` 组成，虽然 ```<AnimatedCircularProgress />``` 本身是一个复杂的组件，但对于库的使用者来说，它就是一个 Atom 级别的组件。
+
+![incomingline](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/incomingline.jpg)
+
+它们可以组合成下面的页面 ↓
+
+![sitedetail](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/sitedetail.jpg)
+
+每个组件也可以单独使用，做成别的页面 ↓
+
 ![districeDetail](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/distirctdetail.jpg)
+
+这对于搞 React 的人来说满稀松平常的，但此时我们要说的重点是下面这个 Story 列表，
 
 ![stories](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/storybooksidebar.png)
 
