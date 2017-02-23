@@ -90,11 +90,15 @@ initStoryshots();
 
 [Storybook Addon Knobs](https://git.io/vXdhZ) 可以让你在 Storybook 页面上动态调整传给组件的 props，很适合用于展示。
 
+![knob example](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/knobs.png)
+
+给出组件的几个预设形态，然后让用户在运行时自己改出喜欢的模样，这会让他们觉得这个组件库很人道、很民主。
+
 ## 赏玩你的API
 
 当你用领域驱动设计的思想启动一个 GraphQL 网关，里面有精心定义的模型，字字珠玑的 Schema，还有被它挡在身后的数个 REST 微服务，这时候再为你的同事提供一份用例文档，那可真是锦上添花。
   
-用 ```@kadira/storybook-addon-graphql``` 可以创建一个类似 [Material-UI Components](http://www.material-ui.com/#/components/) 的展示站点，将它部署在内网可以为前端开发人员提供一个快速的网关 query 参考。
+用 ```@kadira/storybook-addon-graphql``` 可以创建一个类似 [Material-UI Components](http://www.material-ui.com/#/components/) 的展示站点，只不过它展示的不是组件的模样而是各个 API 的模样，还有 API 的 query 源码。将它部署在内网，可以为前端开发人员提供一个快速的网关 query 参考。
 
 ![GraphQL Stories Page](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/graphqlstoriesinstance.png)
 
@@ -160,3 +164,4 @@ storiesOf('AndroidApp', module)
 
 ### [<span id="2">Atomic Design 的一个实现：patternlab demo</span>](http://demo.patternlab.io/?p=pages-homepage)
 
+### [<span id="3">始作俑者</span>](https://github.com/storybooks)
