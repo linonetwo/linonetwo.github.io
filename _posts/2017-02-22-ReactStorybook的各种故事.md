@@ -39,8 +39,18 @@ React 开发的单页面应用，顾名思义，有着很多很多的页面（�
 
 ## Atomic Design
 
+2013 年 Brad Frost 提出的 Atomic Design（分级设计）建议我们创建系统中一个个小型、独立、可重用的元素，然后再组合为整个界面，而不是一次设计单个页面。
+
+![Atomic Design](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/Atomic%20Design.png)
+[[1]](#1)
+
+这是一个比较抽象的，面对设计师的概念。当然它曾经有一些框架可以使用，但是比较难用 [[2]](#2)（可能是我耐心不足）。但它的愿景现在可以由 ```@kadira/Storybook``` 来实现，看下图，我给出了两个 Molecule 级别的组件，它们由数个从别的 UI 库中 import 进来的原子组件合成：
+
 
 
 ## 参考
 
 ### [<span id="1">Atomic Design</span>](http://bradfrost.com/blog/post/atomic-web-design/)
+
+### [<span id="2">Atomic Design 的一个实现：patternlab</span>](http://patternlab.io/)
+
