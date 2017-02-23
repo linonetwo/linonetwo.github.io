@@ -62,11 +62,11 @@ React 开发的单页面应用，顾名思义，有着很多很多的页面（�
 
 ![districeDetail](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/distirctdetail.jpg)
 
-对于搞 React 的人来说，组合是蛮稀松平常的事情，但不稀松平常的是下面这个 Story 列表，它拍扁了 Atomic Design 的层次，让你能快速定位到要修复的页面上。
+对于搞 React 的人来说，组合是蛮稀松平常的事情，但不稀松平常的是下面这个 Story 列表，它拍扁了 Atomic Design 的层次，让你能快速定位到要调整样式或者要展示效果的页面上。
 
 ![stories](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/storybooksidebar.png)
 
-在一阵忙碌的修复后，打开组件的 Story，然后选择一个状态，以上图为例，<Incomingline /> 根据传入的 props 不同，我定义了三个状态，分别是静息状态（x），一组让进度条比较好看的参数值，一组随机生成的参数值。为了给产品展示 UI 在各种状态下都能正常工作，你可以定义更多的状态。
+在一阵忙碌的调整后，打开组件的 Story，然后选择一个状态查看，以上图为例，<Incomingline /> 根据传入的 props 不同，我定义了三个状态，分别是静息状态（x），有一组让进度条比较好看的参数值的普通状态，带一组随机生成的参数值的随机状态。为了给经理展示 UI 在各种状态下都能正常工作，你可以定义更多的状态。
 
 ## 快照测试
 
@@ -82,11 +82,11 @@ import initStoryshots from 'storyshots';
 initStoryshots();
 ```
 
-它就会使用 Storybook 的 ```getStorybook()``` 函数获取你的所有 Story，把它们变成快照和上次的快照进行比对，这可用于检测一些组件逻辑修改导致的 I/O 边界变化，比如产品经理让你改一个样式，但新的样式要根据 props 来做订制。这时候某一些 props 可以让组件变得特好看，产品经理满意地笑了，但 storyshot 就会告诉你，有一组输入下逻辑崩了，那你脸就白了，这是个很傻比的 bug，还好在上线前发现了这一点。
+它就会使用 Storybook 的 ```getStorybook()``` 函数获取你的所有 Story，把它们变成快照和上次的快照进行比对，这可用于检测一些组件逻辑修改导致的 I/O 边界变化，比如产品经理让你改一个样式，但新的样式要根据 props 来做订制。你改完需求后写了几个 Story 点开给产品经理看，这时候某几组 props 可以让组件变得特好看，产品经理满意地笑了，但 storyshot 就会告诉你，有一组输入下样式正常但是其实逻辑崩了，那你脸就白了，这是个很傻比的 bug，还好在上线前发现了这一点。
 
 ## 调点参数
 
-如果你在做一个类似 ```material-ui``` 或是 ```ant-design``` 的 Pattern Library，你可能会想全方位地展示你的组件，比如写一个 demo 页，里面给出组件的各种样子。但就像费马所说：「我有很多绝妙的组件样式，但这里空间太小……」，你不可能在 demo 页上给出组件所有的可能形态，因为给得太多会让 demo 页太长很难翻。
+如果你在做一个类似 ```material-ui``` 或是 ```ant-design``` 的 *Pattern Library*，你可能会想全方位地展示你的组件，比如写一个 demo 页，里面给出组件的各种样子。但就像费马所说：「我有很多绝妙的组件样式，但这里空间太小……」，你不可能在 demo 页上给出组件所有的可能形态，因为给得太多会让 demo 页太长很难翻。
 
 [Storybook Addon Knobs](https://git.io/vXdhZ) 可以让你在 Storybook 页面上动态调整传给组件的 props，很适合用于展示。
 
