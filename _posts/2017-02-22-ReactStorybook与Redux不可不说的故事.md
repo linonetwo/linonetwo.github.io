@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ReactStorybook与Redux的故事"
+title: "ReactStorybook与Redux不可不说的故事"
 date: 2017-02-23 22:20:19 +0800
 image: 'blog-author.jpg'
 description: '讲述异步组件故事'

@@ -66,7 +66,35 @@ React 开发的单页面应用，顾名思义，有着很多很多的页面（�
 
 ![stories](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/storybooksidebar.png)
 
-在一阵忙碌的修复后，打开组件的 Story，然后选择一个状态
+在一阵忙碌的修复后，打开组件的 Story，然后选择一个状态，以上图为例，<Incomingline /> 根据传入的 props 不同，我定义了三个状态，分别是静息状态（x），一组让进度条比较好看的参数值，一组随机生成的参数值。为了给产品展示 UI 在各种状态下都能正常工作，你可以定义更多的状态。
+
+## 快照测试
+
+定义更多的状态还有一个好处，就是每一个状态其实都是一个界面单元测试。在开启着这个 Story 的状态下对其进行修改，你肉眼每一次瞄过它都相当于运行了一次样式单元测试，保证了它在常见情况下样式正常。
+  
+而对于自动化测试，我们都知道现在 React 项目在 init 时都会自带一个 Jest 依赖，对于 React，它将一个虚拟 DOM 渲染成一个 JSON 快照，并在下次运行 Jest 时对比新的快照和旧的快照之间有没有出现偏差。
+  
+StoryShot 可以几乎零配置地用你写的 Story 生成快照，只需要：
+
+```javascript
+
+import initStoryshots from 'storyshots';
+initStoryshots();
+```
+
+它就会使用 Storybook 的 ```getStorybook()``` 函数获取你的所有 Story，把它们变成快照和上次的快照进行比对，这可用于检测一些组件逻辑修改导致的 I/O 边界变化，比如产品经理让你改一个样式，但新的样式要根据 props 来做订制。这时候某一些 props 可以让组件变得特好看，产品经理满意地笑了，但 storyshot 就会告诉你，有一组输入下逻辑崩了，那你脸就白了，这是个很傻比的 bug，还好在上线前发现了这一点。
+
+## 调点参数
+
+如果你在做一个类似 ```material-ui``` 或是 ```ant-design``` 的 Pattern Library，你可能会想全方位地展示你的组件，比如写一个 demo 页，里面给出组件的各种样子。但就像费马所说：「我有很多绝妙的组件样式，但这里空间太小……」，你不可能在 demo 页上给出组件所有的可能形态，因为给得太多会让 demo 页很难翻。
+
+[Storybook Addon Knobs](https://git.io/vXdhZ) 可以让你在 Storybook 页面上动态调整传给组件的 props，很适合用于展示。
+
+## 赏玩你的API
+
+当你用领域驱动设计的思想启动一个 GraphQL 网关，里面有精心定义的模型，字字珠玑的 Schema，还有被它挡在身后的数个 REST 微服务，这时候再为你的同事提供一份用例文档，那可真是锦上添花。
+  
+用 ```@kadira/storybook-addon-graphql``` 可以创建一个类似 [Material-UI Components](http://www.material-ui.com/#/components/) 的展示站点，将它部署在内网可以为前端开发人员提供一个快速的网关 query 参考。
 
 ## 参考
 
