@@ -86,7 +86,7 @@ initStoryshots();
 
 ## 调点参数
 
-如果你在做一个类似 ```material-ui``` 或是 ```ant-design``` 的 Pattern Library，你可能会想全方位地展示你的组件，比如写一个 demo 页，里面给出组件的各种样子。但就像费马所说：「我有很多绝妙的组件样式，但这里空间太小……」，你不可能在 demo 页上给出组件所有的可能形态，因为给得太多会让 demo 页很难翻。
+如果你在做一个类似 ```material-ui``` 或是 ```ant-design``` 的 Pattern Library，你可能会想全方位地展示你的组件，比如写一个 demo 页，里面给出组件的各种样子。但就像费马所说：「我有很多绝妙的组件样式，但这里空间太小……」，你不可能在 demo 页上给出组件所有的可能形态，因为给得太多会让 demo 页太长很难翻。
 
 [Storybook Addon Knobs](https://git.io/vXdhZ) 可以让你在 Storybook 页面上动态调整传给组件的 props，很适合用于展示。
 
@@ -96,7 +96,63 @@ initStoryshots();
   
 用 ```@kadira/storybook-addon-graphql``` 可以创建一个类似 [Material-UI Components](http://www.material-ui.com/#/components/) 的展示站点，将它部署在内网可以为前端开发人员提供一个快速的网关 query 参考。
 
+![GraphQL Stories Page](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/graphqlstoriesinstance.png)
+
+一个 GraphQL Story 有预定义的 query 和 variable，你可以在页面上随时修改它，修改的的时候也能享受到 GraphQL 反射提供的自动补全。
+
+我们通过一个叫 ```babel-plugin-static-fs``` 的 babel 插件来载入 ```.graphql``` 文件，它将形似 ```readFileSync(join(__dirname, './xxx/xxx.graphql'), 'utf8')``` 的字符串在编译期替换掉，换成内联的 GraphQL 请求字符串：
+
 ![GraphQL Stories](https://github.com/linonetwo/linonetwo.github.io/raw/master/assets/img/posts/reduxstorybook/graphqlstories.png)
+
+```javascript
+
+// babel-plugin-static-fs 需要的引用，其实它们并不会真的起作用，而是在编译期被内联
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+import { storiesOf, action } from '@kadira/storybook';
+import { setupGraphiQL } from '@kadira/storybook-addon-graphql';
+
+// 自定义的 connector
+const fetcher = (params) => {
+  const options = {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+      accept: 'application/json',
+    },
+    body: JSON.stringify(params),
+  };
+  // 这里我们直接调用本地启动的 API 网关
+  return fetch('http://localhost:8964/graphql', options).then(res => res.json());
+};
+const graphiql = setupGraphiQL({ fetcher });
+
+// 以下添加一个 Story 的两个状态
+storiesOf('AndroidApp', module)
+.add('GetToken with dwycs', graphiql(readFileSync(join(__dirname, './mutations/GetToken.gql'), 'utf8'),
+  `
+    {
+      "userName": "xxxxxx",
+      "passWord": "xxxxxxxxxxx"
+    }
+  `
+))
+.add('MainPageData with dwycs', graphiql(readFileSync(join(__dirname, './queries/android/MainPageData.gql'), 'utf8'),
+  `
+    {
+      "token": "xxxxxx-xxxxxxxx-xxxxxxxx"
+    }
+  `
+));
+
+```
+
+有了这样的锦上添花设施，你就能让你的基础设施更好地为人民服务了。
+
+## 更多的故事书
+
+可想而知，人民群众对这种新奇的测试方法——或者说展示方法——的热情很快就会延伸到其他领域，设计师可以用它在网页和手机上展示复杂的 AE 动画效果（[bodymovin](https://github.com/OYsun/AE-Element)），区块链工程师用它测试各种智能合约等等，我很期待在未来看到 ```@kadira/Storybook``` 发展成一套类似于 IPython（Jupyter Notebook）但更注重于可视化的 snippet 管理工具。
 
 ## 参考
 
