@@ -46,11 +46,15 @@ React 开发的单页面应用，顾名思义，有着很多很多的页面（�
 
 这是一个比较抽象的，面对设计师的概念。当然它曾经有一些框架可以使用，但是比较难用 [[2]](#2)（可能是我耐心不足）。但它的愿景现在可以由 ```@kadira/Storybook``` 来实现，看下图，我给出了两个 Molecule 级别的组件，它们由数个从别的 UI 库中 import 进来的原子组件合成：
 
+![powerload](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/powerload.jpg)
 
+![districeDetail](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/distirctdetail.jpg)
+
+![stories](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/storybooksidebar.png)
 
 ## 参考
 
 ### [<span id="1">Atomic Design</span>](http://bradfrost.com/blog/post/atomic-web-design/)
 
-### [<span id="2">Atomic Design 的一个实现：patternlab</span>](http://patternlab.io/)
+### [<span id="2">Atomic Design 的一个实现：patternlab demo</span>](http://demo.patternlab.io/?p=pages-homepage)
 
