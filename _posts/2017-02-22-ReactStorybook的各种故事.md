@@ -96,6 +96,8 @@ initStoryshots();
   
 用 ```@kadira/storybook-addon-graphql``` 可以创建一个类似 [Material-UI Components](http://www.material-ui.com/#/components/) 的展示站点，将它部署在内网可以为前端开发人员提供一个快速的网关 query 参考。
 
+![GraphQL Stories](https://github.com/linonetwo/linonetwo.github.io/raw/master/assets/img/posts/reduxstorybook/graphqlstories.png)
+
 ## 参考
 
 ### [<span id="1">Atomic Design</span>](http://bradfrost.com/blog/post/atomic-web-design/)
