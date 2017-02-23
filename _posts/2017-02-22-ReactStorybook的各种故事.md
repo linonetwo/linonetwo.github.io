@@ -37,7 +37,10 @@ React 开发的单页面应用，顾名思义，有着很多很多的页面（�
 
 ```@kadira/Storybook```就是一个这样的框架，可以应用在 web 端和 native 端，将每个组件看作一个故事，然后用 Storybook 左边的书签在故事之间快速跳转。
 
+## Atomic Design
+
 
 
 ## 参考
 
+### [<span id="1">Atomic Design</span>](http://bradfrost.com/blog/post/atomic-web-design/)
