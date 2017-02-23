@@ -33,9 +33,11 @@ React 开发的单页面应用，顾名思义，有着很多很多的页面（�
 
 ![React Native Storybook](https://github.com/storybooks/react-native-storybook/raw/master/docs/assets/readme/screenshot.png)
 
+```@kadira/Storybook``` 就是一个这样的框架，可以应用在 web 端和 native 端，将每个组件看作一个故事，然后用 Storybook 左边的书签在故事之间快速跳转。
+
 ## 故事书
 
-```@kadira/Storybook```就是一个这样的框架，可以应用在 web 端和 native 端，将每个组件看作一个故事，然后用 Storybook 左边的书签在故事之间快速跳转。
+在 ```@kadira/Storybook``` 的辅助下，我们可以把组件化开发玩出一些花样。
 
 ## Atomic Design
 
@@ -60,9 +62,11 @@ React 开发的单页面应用，顾名思义，有着很多很多的页面（�
 
 ![districeDetail](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/distirctdetail.jpg)
 
-这对于搞 React 的人来说满稀松平常的，但此时我们要说的重点是下面这个 Story 列表，
+对于搞 React 的人来说，组合是蛮稀松平常的事情，但不稀松平常的是下面这个 Story 列表，它拍扁了 Atomic Design 的层次，让你能快速定位到要修复的页面上。
 
 ![stories](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/reduxstorybook/storybooksidebar.png)
+
+在一阵忙碌的修复后，打开组件的 Story，然后选择一个状态
 
 ## 参考
 
