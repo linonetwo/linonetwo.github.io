@@ -15,7 +15,7 @@ categories: Review
 twitter_text:
 introduction: '用 @kadira/Storybook 迭代开发各种各样的 React 组件'
 ---
-# ReactStorybook 与 Redux 的异步故事
+# ReactStorybook 的各种故事
 
 React 开发的单页面应用，顾名思义，有着很多很多的页面（。）应用启动时可能会有启动页，然后根据本地存储中有没有存在 token 决定是否跳转到登录页面，登录后则可能有多 tab 切换的页面、点击列表项跳转的目录页等等。
   
