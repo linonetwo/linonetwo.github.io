@@ -11,6 +11,7 @@ tags:
 - kadira
 - React
 - storybook
+- WIP
 categories: Review
 twitter_text:
 introduction: '用 @kadira/Storybook 迭代开发 React 组件之余，要是能给它们注入来自 Web API 的异步数据就好了'
