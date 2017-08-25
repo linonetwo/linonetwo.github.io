@@ -11,7 +11,7 @@ tags:
 - Apollo
 - React
 - graphQL
-categories: Review
+categories: Journal
 twitter_text:
 introduction: '介绍如何将现有的 RESTful API 包装成一个适合单页面应用的 GraphQL API'
 ---

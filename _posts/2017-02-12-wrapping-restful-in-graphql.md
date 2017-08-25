@@ -11,7 +11,7 @@ tags:
 - Apollo
 - React
 - graphQL
-categories: Review
+categories: Journal
 twitter_text:
 introduction: 'introducting how to wrap existing RESTful API into a GraphQL API Gateway.'
 ---
