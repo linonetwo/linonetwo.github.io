@@ -4,12 +4,12 @@
 <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
 	var gitment = new Gitment({
-		id: '页面 ID', // 可选。默认为 location.href
-		owner: '你的 GitHub ID',
-		repo: '存储评论的 repo',
+		id: '{{ page.title }}', // 可选。默认为 location.href
+		owner: 'linonetwo',
+		repo: 'https://github.com/linonetwo/linonetwo.github.io',
 		oauth: {
-			client_id: '你的 client ID',
-			client_secret: '你的 client secret',
+			client_id: '8a658374212177e63e4c',
+			client_secret: 'aee7fdb1dd461919b6f0e31c8229a57ff0fd87eb',
 		},
 	})
 	gitment.render('gitmentcontainer')
