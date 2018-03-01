@@ -61,10 +61,12 @@
 function scrollBanner() {
   var scrollPos;
   var headerText = document.querySelector('.header-post .content')
+  var headerBar = document.querySelector('.bar-header')
   scrollPos = window.scrollY;
 
   if (scrollPos <= 500 && headerText != null) {
       headerText.style.transform =  "translateY(" + (-scrollPos/3) +"px" + ")";
+      headerBar.style.transform =  "translateY(" + (-scrollPos/3) +"px" + ")";
       headerText.style.opacity = 1-(scrollPos/500);
   }
 }
