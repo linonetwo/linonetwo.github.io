@@ -4,7 +4,8 @@
   "description": "A simple template for Jekyll Blogs.",
   "main": "gulpfile.js",
   "scripts": {
-    "style": "node node_modules\\gulp\\bin\\gulp.js stylus",
+    "style": "node node_modules/gulp/bin/gulp.js stylus",
+    "html": "node node_modules/gulp/bin/gulp.js jekyll-build",
     "js": "node node_modules/gulp/bin/gulp.js js"
   },
   "keywords": [
