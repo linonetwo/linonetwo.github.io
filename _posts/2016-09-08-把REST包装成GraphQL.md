@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "把REST包装成GraphQL"
-date: 2016-10-02 13:27:20 +0800
+date: 2016-10-01 10:27:20 +0800
 image: 'blog-author.jpg'
 description: '作为一个 API 网关'
 main-class: 'frontend'
