@@ -2,7 +2,7 @@
 # Site settings
 description: A blog of lin onetwo
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://linonetwo.github.io/" # the base hostname & protocol for your site e.g. http://willianjusten.com.br
+url: "https://onetwo.ren/" # the base hostname & protocol for your site e.g. http://willianjusten.com.br
 title: 林一二的开放记忆
 
 # User settings
@@ -33,13 +33,13 @@ compress_html:
 # For external links add external: true
 links:
   - title: Home
-    url: /
+    url: 
   - title: Series
-    url: /series
+    url: series
   - title: Tags
-    url: /tags
+    url: tags
   - title: About Me
-    url: /about
+    url: about
 
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
