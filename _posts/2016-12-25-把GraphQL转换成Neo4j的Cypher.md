@@ -5,7 +5,7 @@ date: 2016-12-25 13:27:20 +0800
 image: 'blog-author.jpg'
 description: '不用写数据库请求'
 main-class: 'backend'
-color: '#827717'
+color: '#D6BA32'
 tags:
 - Redux
 - Apollo
