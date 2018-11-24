@@ -1,17 +1,18 @@
-<!-- gitment  -->
-<div id="gitmentcontainer"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<!-- gitalk  -->
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 <script>
-	var gitment = new Gitment({
-		id: '{{ page.date }}', // 可选。默认为 location.href
+	var gitalk = new Gitalk({
+		clientID: 'e76cac5f18429e0e363f',
+		clientSecret: '136f3bf58623eb837e732f69c448c9d1f6862330',
+		repo: 'https://github.com/linonetwo/linonetwo.github.io',
 		owner: 'linonetwo',
-		repo: 'linonetwo.github.io',
-		oauth: {
-			client_id: '8eee267161c2ec104ed3',
-			client_secret: '7811bfc55e42371008609937dd5927bfe60f3bb9',
-		},
+		admin: ['linonetwo'],
+		id: '{{ page.date }} {{ page.title }}'.substring(0,49),      // Ensure uniqueness and length less than 50
+		distractionFreeMode: false  // Facebook-like distraction free mode
 	})
-	gitment.render('gitmentcontainer')
+
+	gitalk.render('gitalk-container')
 </script>
-<!-- gitment -->
+<!-- gitalk -->
