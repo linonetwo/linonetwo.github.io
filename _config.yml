@@ -1,7 +1,7 @@
 
 # Site settings
 description: 林一二的博客 | A blog of lin onetwo
-baseurl: "/" # the subpath of your site, e.g. /blog
+baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://onetwo.ren" # the base hostname & protocol for your site e.g. http://willianjusten.com.br
 title: 林一二的开放记忆 | 关于前端_模因学_语义网_游戏开发_的博客
 
