@@ -40,6 +40,8 @@ links:
     url: series
   - title: Tags
     url: tags
+  - title: Friends
+    url: friends
   - title: About Me
     url: about
 
