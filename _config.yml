@@ -36,6 +36,7 @@ links:
     url: 
   - title: KnowledgeBase
     url: https://www.notion.so/openmemory/4a6c3229a78e4c1ba7c6b2261804fe34
+    out: true
   - title: Series
     url: series
   - title: Tags
