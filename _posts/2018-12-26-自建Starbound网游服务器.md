@@ -31,6 +31,7 @@ introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还
 好在我早就把自用的 mod [放进了一个合集里](https://steamcommunity.com/sharedfiles/filedetails/?id=1267792017)，以前是方便了联机的朋友一键订阅，现在就是可以从它直接生成自动操作 steam 命令行工具的脚本，不过因为我不是很熟悉 sed 和 tee 的用法，有时候脚本内容会被追加到 `moddownload.sh` 里面，有时候却不会，不是很稳定：
 
 ```shell
+
 echo login 账号填这 密码填这 > moddownload.sh && curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
 | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
 | sed 's/^/workshop_download_item 211820 /' | tee -a moddownload.sh && echo quit >> moddownload.sh && ./steamcmd/steamcmd.sh +runscript ../moddownload.sh
@@ -39,6 +40,7 @@ echo login 账号填这 密码填这 > moddownload.sh && curl -s --data "collect
 接着要用另一个脚本生成 `serverfiles/linux/sbinit.config` ，它就相当于你想启动的 mod 的列表，里面放了一大列 steam 命令行工具下载了的 mod 的存放路径：
 
 ```shell
+
 echo -e "{\n  \"assetDirectories\": [\n    \"../assets/\",\n    \"../mods/\",\n    " && \
 curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
 | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
@@ -60,9 +62,10 @@ echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
 之前在 vultr 上试着开服的时候，服务器总是卡在这三步中的某一步上：
 
 ```log
-    [22:35:02.148] [Info] Root: Loaded RadioMessageDatabase in 0.106177 seconds
-    [22:35:10.984] [Info] Root: Loaded ItemDatabase in 14.4328 seconds
-    [22:35:12.441] [Info] Root: Loaded CollectionDatabase in 10.2919 seconds
+
+[22:35:02.148] [Info] Root: Loaded RadioMessageDatabase in 0.106177 seconds
+[22:35:10.984] [Info] Root: Loaded ItemDatabase in 14.4328 seconds
+[22:35:12.441] [Info] Root: Loaded CollectionDatabase in 10.2919 seconds
 ```
 
 我就猜想可能是可怜的破服务器仅有的 1G 内存用光了，于是我就照着 ArchLinux 的维基创建了 5G 的交换文件 [wiki.archlinux.org/Swap\_(简体中文)](https://wiki.archlinux.org/index.php/Swap_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))，不得不赞这个维基之清晰，从上面复制黏贴命令一般不会踩到坑。
