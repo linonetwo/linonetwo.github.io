@@ -16,35 +16,37 @@ introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还
 
 # 自建 Starbound 网游服务器
 
-我的这篇博客已经坑了老久了，感觉得再体验一下 Starbound 来获取一些灵感，于是我拉上朋友联机 Starbound。
-
-[星界边境那么大，我却懒得动](https://onetwo.ren/%E6%98%9F%E7%95%8C%E8%BE%B9%E5%A2%83%E9%82%A3%E4%B9%88%E5%A4%A7-%E6%88%91%E5%8D%B4%E6%87%92%E5%BE%97%E5%8A%A8/)
+我的《[星界边境那么大，我却懒得动](https://onetwo.ren/%E6%98%9F%E7%95%8C%E8%BE%B9%E5%A2%83%E9%82%A3%E4%B9%88%E5%A4%A7-%E6%88%91%E5%8D%B4%E6%87%92%E5%BE%97%E5%8A%A8/)》这篇博客已经坑了老久了，感觉得再体验一下 Starbound 来获取一些灵感，于是我拉上朋友联机 Starbound。
 
 以前和朋友用 Steam 连 Starbound 的时候，如果我用我的台式电脑来作为主机，朋友跟我在一个局域网，那样联机体验还不错。但是如果不在同一个屋子里联机的时候，体验就好不起来了，而且换电脑之后星球上的建筑等数据是不会被 Steam 云同步的，只有角色数据会云同步，要是能自己搭一个服务器，就可以当网游玩了，不用担心备份和 Steam 联机的延迟啦。
 
 于是我先拿自己的 vultr 服务器试了一下，感觉国外 ping 值 200ms 以上的话，联机体验还是不行，有时候会看到朋友的角色定住不动，或者朋友反映怪打不死之类的。后来换到阿里云就好多了，基本和在一个屋子里玩一样了。
 
-最开始我参考了一个讲如何手工用 steam 命令行工具下载游戏然后用 `screen` 这个 Linux 程序来维护服务器的教程： [https://steamcommunity.com/sharedfiles/filedetails/?l=german&id=200785834](https://steamcommunity.com/sharedfiles/filedetails/?l=german&id=200785834) 还有 [https://starbounder.org/Guide:LinuxServerSetup](https://starbounder.org/Guide:LinuxServerSetup)。
+最开始我参考了一个讲如何手工用 steam 命令行工具下载游戏然后用 `screen` 这个 Linux 程序来维护服务器的[教程](https://steamcommunity.com/sharedfiles/filedetails/?l=german&id=200785834)，还有 [Guide:LinuxServerSetup](https://starbounder.org/Guide:LinuxServerSetup)。
 
-不过后来我发现这实在是不好维护，还是使用自动化的工具 [https://linuxgsm.com/lgsm/sbserver/](https://linuxgsm.com/lgsm/sbserver/) 来得好，这是一个守护 starbound 游戏服务器的程序，还能自动安装游戏，反正能省去一些手工劳动吧。
+不过后来我发现这实在是不好维护，还是使用自动化的工具 [LinuxGSM](https://linuxgsm.com/lgsm/sbserver/) 来得好，这是一个守护 starbound 游戏服务器的程序，还能自动安装游戏，反正能省去一些手工劳动吧。
 
 安装 mod 得一个个输入 mod 在创意工坊的代码，然后用 steam 的命令行工具来安装，mod 的创意工坊代码就是其网址 [`https://steamcommunity.com/sharedfiles/filedetails/?id=807695810`](https://steamcommunity.com/sharedfiles/filedetails/?id=807695810) 中 `id=` 后面的那串数字。
 
 好在我早就把自用的 mod [放进了一个合集里](https://steamcommunity.com/sharedfiles/filedetails/?id=1267792017)，以前是方便了联机的朋友一键订阅，现在就是可以从它直接生成自动操作 steam 命令行工具的脚本，不过因为我不是很熟悉 sed 和 tee 的用法，有时候脚本内容会被追加到 `moddownload.sh` 里面，有时候却不会，不是很稳定：
 
-    echo login 账号填这 密码填这 > moddownload.sh && curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
-    | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
-    | sed 's/^/workshop_download_item 211820 /' | tee -a moddownload.sh && echo quit >> moddownload.sh && ./steamcmd/steamcmd.sh +runscript ../moddownload.sh
+```shell
+echo login 账号填这 密码填这 > moddownload.sh && curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
+| jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
+| sed 's/^/workshop_download_item 211820 /' | tee -a moddownload.sh && echo quit >> moddownload.sh && ./steamcmd/steamcmd.sh +runscript ../moddownload.sh
+```
 
 接着要用另一个脚本生成 `serverfiles/linux/sbinit.config` ，它就相当于你想启动的 mod 的列表，里面放了一大列 steam 命令行工具下载了的 mod 的存放路径：
 
-    echo -e "{\n  \"assetDirectories\": [\n    \"../assets/\",\n    \"../mods/\",\n    " && \
-    curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
-    | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
-    | sed 's#^#"../steamapps/workshop/content/211820/#' | sed 's#/"#/#' | tr -t '\n' ',' && \
-    echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
+```shell
+echo -e "{\n  \"assetDirectories\": [\n    \"../assets/\",\n    \"../mods/\",\n    " && \
+curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
+| jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
+| sed 's#^#"../steamapps/workshop/content/211820/#' | sed 's#/"#/#' | tr -t '\n' ',' && \
+echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
+```
 
-这些脚本都参考自 [https://github.com/GameServerManagers/LinuxGSM/issues/1623](https://github.com/GameServerManagers/LinuxGSM/issues/1623)。
+这些脚本都参考自 [LinuxGSM/issues/1623](https://github.com/GameServerManagers/LinuxGSM/issues/1623)。
 
 这里我踩过的坑有：
 
@@ -57,11 +59,13 @@ introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还
 
 之前在 vultr 上试着开服的时候，服务器总是卡在这三步中的某一步上：
 
+```log
     [22:35:02.148] [Info] Root: Loaded RadioMessageDatabase in 0.106177 seconds
     [22:35:10.984] [Info] Root: Loaded ItemDatabase in 14.4328 seconds
     [22:35:12.441] [Info] Root: Loaded CollectionDatabase in 10.2919 seconds
+```
 
-我就猜想可能是可怜的破服务器仅有的 1G 内存用光了，于是我就照着 ArchLinux 的维基创建了 5G 的交换文件 [https://wiki.archlinux.org/index.php/Swap\_(简体中文)](<https://wiki.archlinux.org/index.php/Swap_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)，不得不赞这个维基之清晰，从上面复制黏贴命令一般不会踩到坑。
+我就猜想可能是可怜的破服务器仅有的 1G 内存用光了，于是我就照着 ArchLinux 的维基创建了 5G 的交换文件 [wiki.archlinux.org/Swap\_(简体中文)](https://wiki.archlinux.org/index.php/Swap_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))，不得不赞这个维基之清晰，从上面复制黏贴命令一般不会踩到坑。
 
 然而在载入巨大大副本的时候服务器还是会爆卡，客户端上就是一直卡在 beam down 的过程中了，用 `top` 一看原来是因为服务器的物理内存不足，然后 kswapd0 进程就会占用大量 CPU 算力来搬运内存中的游戏数据到 swapfile 里。这么勤劳干嘛呢，这些游戏数据是一个只用不到 20 分钟的副本的。而因为它的勤劳，我在副本里行动都一卡一卡的。
 
