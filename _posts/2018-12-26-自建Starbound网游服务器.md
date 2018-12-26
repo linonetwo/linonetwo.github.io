@@ -1,0 +1,75 @@
+---
+layout: post
+title: "自建 Starbound 网游服务器"
+date: 2018-12-19 23:42:19 +0800
+image: 'blog-author.jpg'
+description: '记录了搭 Starbound 私服的过程'
+main-class: 'game'
+color: '#7D669E'
+tags:
+- knowledgeGraph
+- frontend
+categories: Journal
+twitter_text:
+introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还有运维心得'
+---
+# 自建 Starbound 网游服务器
+
+我的这篇博客已经坑了老久了，感觉得再体验一下 Starbound 来获取一些灵感，于是我拉上朋友联机 Starbound。
+
+[星界边境那么大，我却懒得动](https://onetwo.ren/%E6%98%9F%E7%95%8C%E8%BE%B9%E5%A2%83%E9%82%A3%E4%B9%88%E5%A4%A7-%E6%88%91%E5%8D%B4%E6%87%92%E5%BE%97%E5%8A%A8/)
+
+以前和朋友用 Steam 连 Starbound 的时候，如果我用我的台式电脑来作为主机，朋友跟我在一个局域网，那样联机体验还不错。但是如果不在同一个屋子里联机的时候，体验就好不起来了，而且换电脑之后星球上的建筑等数据是不会被 Steam 云同步的，只有角色数据会云同步，要是能自己搭一个服务器，就可以当网游玩了，不用担心备份和 Steam 联机的延迟啦。
+
+于是我先拿自己的 vultr 服务器试了一下，感觉国外 ping 值 200ms 以上的话，联机体验还是不行，有时候会看到朋友的角色定住不动，或者朋友反映怪打不死之类的。后来换到阿里云就好多了，基本和在一个屋子里玩一样了。
+
+最开始我参考了一个讲如何手工用 steam 命令行工具下载游戏然后用 `screen` 这个 Linux 程序来维护服务器的教程： [https://steamcommunity.com/sharedfiles/filedetails/?l=german&id=200785834](https://steamcommunity.com/sharedfiles/filedetails/?l=german&id=200785834) 还有 [https://starbounder.org/Guide:LinuxServerSetup](https://starbounder.org/Guide:LinuxServerSetup)。
+
+不过后来我发现这实在是不好维护，还是使用自动化的工具 [https://linuxgsm.com/lgsm/sbserver/](https://linuxgsm.com/lgsm/sbserver/) 来得好，这是一个守护 starbound 游戏服务器的程序，还能自动安装游戏，反正能省去一些手工劳动吧。
+
+安装 mod 得一个个输入 mod 在创意工坊的代码，然后用 steam 的命令行工具来安装，mod 的创意工坊代码就是其网址 [`https://steamcommunity.com/sharedfiles/filedetails/?id=807695810`](https://steamcommunity.com/sharedfiles/filedetails/?id=807695810) 中 `id=` 后面的那串数字。
+
+好在我早就把自用的 mod [放进了一个合集里](https://steamcommunity.com/sharedfiles/filedetails/?id=1267792017)，以前是方便了联机的朋友一键订阅，现在就是可以从它直接生成自动操作 steam 命令行工具的脚本，不过因为我不是很熟悉 sed 和 tee 的用法，有时候脚本内容会被追加到 `moddownload.sh` 里面，有时候却不会，不是很稳定：
+
+    echo login 账号填这 密码填这 > moddownload.sh && curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
+    | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
+    | sed 's/^/workshop_download_item 211820 /' | tee -a moddownload.sh && echo quit >> moddownload.sh && ./steamcmd/steamcmd.sh +runscript ../moddownload.sh
+
+接着要用另一个脚本生成 `serverfiles/linux/sbinit.config` ，它就相当于你想启动的 mod 的列表，里面放了一大列 steam 命令行工具下载了的 mod 的存放路径：
+
+    echo -e "{\n  \"assetDirectories\": [\n    \"../assets/\",\n    \"../mods/\",\n    " && \
+    curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
+    | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
+    | sed 's#^#"../steamapps/workshop/content/211820/#' | sed 's#/"#/#' | tr -t '\n' ',' && \
+    echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
+
+这些脚本都参考自 [https://github.com/GameServerManagers/LinuxGSM/issues/1623](https://github.com/GameServerManagers/LinuxGSM/issues/1623)。
+
+这里我踩过的坑有：
+
+1. 没有检查生成的 `sbinit.config`是不是一个合法的 JSON，有一次数组的最后一项后面多带了一个逗号，结果 starbound 服务器就无法启动了。
+2. 里面的 mod 路径是不是指向 steam 下载的 mod 们，因为 LinuxGSM 也会维护一个 mod 文件夹，结果我的 `sbinit.config`一直指向的是这个文件夹，当我用 steam 命令行工具更新了 mod 之后，LinuxGSM 维护的 mod 文件夹是不变的，于是我就一直很奇怪为什么 mod 没更新。
+3. 有的 mod 会冲突，导致 `Exception caught in client main loop, eof reached` 等报错，可能是因为 Enhanced Storage 等 mod 与其他某个 mod 冲突了，而互相影响的 mod 太多了形成了复杂的网络无法找到是其他哪几个 mod 影响了 Enhanced Storage，所以只好把 Enhanced Storage 卸掉。
+4. 有时候服务端的 mod 比客户端的少，例如我在 `sbinit.config` 里面指向了错误的 mod 文件夹，导致客户端有 70+个 mod，而服务端只有 ~50 个 mod，这就会在登录服务器时导致服务端报错（可以在 log 里看到具体错误信息），而客户端报的错就会是 `incoming client packet has caused an exception` 。
+
+即使服务端和客户端开启的 mod 列表是完全相同的，在登录服务器时还是会提示 `Assets mismatch between client and server, and the override option is not set` 。那解决办法当然就是让所有玩家都在客户端的设置里打开 `Allow Assets Mismatch` ，只要两边 mod 真的是对应的，打开之后就能正常登录服务器了。但是打开之后总感觉就失去了一个测试点，像之前客户端服务端 mod 数量真的不对应的时候，就没人来帮我们做检查了。
+
+之前在 vultr 上试着开服的时候，服务器总是卡在这三步中的某一步上：
+
+    [22:35:02.148] [Info] Root: Loaded RadioMessageDatabase in 0.106177 seconds
+    [22:35:10.984] [Info] Root: Loaded ItemDatabase in 14.4328 seconds
+    [22:35:12.441] [Info] Root: Loaded CollectionDatabase in 10.2919 seconds
+
+我就猜想可能是可怜的破服务器仅有的 1G 内存用光了，于是我就照着 ArchLinux 的维基创建了 5G 的交换文件 [https://wiki.archlinux.org/index.php/Swap_(简体中文)](https://wiki.archlinux.org/index.php/Swap_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))，不得不赞这个维基之清晰，从上面复制黏贴命令一般不会踩到坑。
+
+然而在载入巨大大副本的时候服务器还是会爆卡，客户端上就是一直卡在 beam down 的过程中了，用 `top` 一看原来是因为服务器的物理内存不足，然后 kswapd0 进程就会占用大量 CPU 算力来搬运内存中的游戏数据到 swapfile 里。这么勤劳干嘛呢，这些游戏数据是一个只用不到 20 分钟的副本的。而因为它的勤劳，我在副本里行动都一卡一卡的。
+
+于是我在 `/etc/sysctl.conf` 里设置了 `vm.swappiness = 5` ，果然显著降低了 kswapd0 搬运内存的意愿，现在只有内存仅剩 5% 的时候它才开始搬运内容啦~再进入副本果然就是一点也不卡了。
+
+然后未雨绸缪，我打算把 sbserver 用户下的所有进程的优先级都默认提高，遂创建 `/etc/security/limits.d/sbserver-priority.conf` 文件，写入 `sbserver hard priority -20` ，把默认的 nice 值提到和 kswapd0 一样高。重启后再用 `ps -efl | grep starbound` 一看，果然 nice 都变成和系统进程一个级别的 -20 了，而优先级会比系统进程的 80 低一点，只有 60，这样游戏流畅的同时系统应该也不会崩吧。
+
+最后要赞美 [zeit 公司](https://zeit.co/)，他们开发的 [serve](https://www.npmjs.com/package/serve) 在我查看 mod 列表、阅读 log、翻阅 mod 路径的过程中起了很大的作用。在装好 nodejs 之后，再装上 serve，然后 `serve /home/sbserver` ，就可以用这个简洁易用的 web 界面来查看服务器上的数据了。（当然要事先在服务器的安全组里设置 5000 端口仅能从我自己的电脑的 IP 可访问，以保证安全）
+
+![](Untitled-a8c2f6f1-cdf5-466c-a8ae-01ae82d9023d.png)
+
+![](Untitled-4ac42f28-ce38-476f-8991-154551b2b8ce.png)
