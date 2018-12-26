@@ -1,18 +1,19 @@
 ---
 layout: post
-title: "自建 Starbound 网游服务器"
+title: '自建 Starbound 网游服务器'
 date: 2018-12-19 23:42:19 +0800
 image: 'blog-author.jpg'
 description: '记录了搭 Starbound 私服的过程'
 main-class: 'game'
 color: '#7D669E'
 tags:
-- knowledgeGraph
-- frontend
+  - debug
+  - game
 categories: Journal
 twitter_text:
 introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还有运维心得'
 ---
+
 # 自建 Starbound 网游服务器
 
 我的这篇博客已经坑了老久了，感觉得再体验一下 Starbound 来获取一些灵感，于是我拉上朋友联机 Starbound。
@@ -60,7 +61,7 @@ introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还
     [22:35:10.984] [Info] Root: Loaded ItemDatabase in 14.4328 seconds
     [22:35:12.441] [Info] Root: Loaded CollectionDatabase in 10.2919 seconds
 
-我就猜想可能是可怜的破服务器仅有的 1G 内存用光了，于是我就照着 ArchLinux 的维基创建了 5G 的交换文件 [https://wiki.archlinux.org/index.php/Swap_(简体中文)](https://wiki.archlinux.org/index.php/Swap_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))，不得不赞这个维基之清晰，从上面复制黏贴命令一般不会踩到坑。
+我就猜想可能是可怜的破服务器仅有的 1G 内存用光了，于是我就照着 ArchLinux 的维基创建了 5G 的交换文件 [https://wiki.archlinux.org/index.php/Swap\_(简体中文)](<https://wiki.archlinux.org/index.php/Swap_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)，不得不赞这个维基之清晰，从上面复制黏贴命令一般不会踩到坑。
 
 然而在载入巨大大副本的时候服务器还是会爆卡，客户端上就是一直卡在 beam down 的过程中了，用 `top` 一看原来是因为服务器的物理内存不足，然后 kswapd0 进程就会占用大量 CPU 算力来搬运内存中的游戏数据到 swapfile 里。这么勤劳干嘛呢，这些游戏数据是一个只用不到 20 分钟的副本的。而因为它的勤劳，我在副本里行动都一卡一卡的。
 
@@ -70,6 +71,6 @@ introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还
 
 最后要赞美 [zeit 公司](https://zeit.co/)，他们开发的 [serve](https://www.npmjs.com/package/serve) 在我查看 mod 列表、阅读 log、翻阅 mod 路径的过程中起了很大的作用。在装好 nodejs 之后，再装上 serve，然后 `serve /home/sbserver` ，就可以用这个简洁易用的 web 界面来查看服务器上的数据了。（当然要事先在服务器的安全组里设置 5000 端口仅能从我自己的电脑的 IP 可访问，以保证安全）
 
-![](Untitled-a8c2f6f1-cdf5-466c-a8ae-01ae82d9023d.png)
+![log1](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/starbound/log1.png)
 
-![](Untitled-4ac42f28-ce38-476f-8991-154551b2b8ce.png)
+![log2](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/starbound/log2.png)
