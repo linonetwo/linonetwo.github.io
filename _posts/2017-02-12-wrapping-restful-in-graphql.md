@@ -15,8 +15,6 @@ categories: Journal
 twitter_text:
 introduction: 'introducting how to wrap existing RESTful API into a GraphQL API Gateway.'
 ---
-# Using GraphQL at frontend by stealth
-
 ## Abstraction
 
 From frontend dev aspect of view, GraphQL is a data layer paradigm that supports declarative Optimistic Update, fetch data following with use, data WYSIWYG, etc. It truly has some advantage above RESTful API, I'm going to introduce how to wrap existing RESTful API into a GraphQL API Gateway, without bothering backend dev, using an example that has been production tested.

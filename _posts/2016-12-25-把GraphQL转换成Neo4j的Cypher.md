@@ -16,8 +16,6 @@ categories: Journal
 twitter_text:
 introduction: '介绍如何用现有的 GraphQL API 自动高效地从 Neo4j 数据库中获取数据'
 ---
-# 偷偷在后端不写数据库请求
-
 ## 摘要
 
 从后端开发者的角度来看，GraphQL 是一个特会逼逼（N+1 Problem）、只暴露单一数据端点、提供图状数据（Graph）的数据层范式。由 Facebook 所推广的它，比起 RESTful API 有很多难写的地方。本文将简述由 GraphQL 自动生成数据库请求的一些方案，并重点介绍常用的图论数据库查询语言 Cypher 是怎么从同构的 GraphQL 中生成出来的。

@@ -15,8 +15,6 @@ categories: Review
 twitter_text:
 introduction: '介绍一个使用 GraphQL 进行通信的，将数据流和 React 界面进行干净漂亮的绑定的工具: APOLLO'
 ---
-# APOLLO GraphQL
-
 GraphQL 是一个能表现出数据层次性，适合 React 这种单页应用结构的数据层模型。
 
 ![prior](https://cdn-images-1.medium.com/max/800/1*QH_tgaH0Y9bY5T8Bh3FqVw.png)

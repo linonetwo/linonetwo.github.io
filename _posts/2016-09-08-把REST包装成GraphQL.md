@@ -15,8 +15,6 @@ categories: Journal
 twitter_text:
 introduction: '介绍如何将现有的 RESTful API 包装成一个适合单页面应用的 GraphQL API'
 ---
-# 偷偷在前端使用 GraphQL
-
 ## 摘要
 
 从前端开发者的角度来看，GraphQL 是一个支持积极更新数据（Optimistic Update）、在 React 组件旁边声明式地取数据、数据所见即所得的数据层范式。由 Facebook 所推广的它，比起 RESTful API 有很多先进之处。本文以一个生产环境中的例子相伴，介绍了如何在不影响后端开发人员的情况下将现有的 RESTful API 包装成便于前端使用的 GraphQL API。
