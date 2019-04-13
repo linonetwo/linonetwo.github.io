@@ -1,33 +1,34 @@
 ---
 layout: post
-title: "Meteor推出的数据框架APOLLO"
+title: 'Meteor推出的数据框架APOLLO'
 date: 2016-08-04 22:29:00 +0800
 image: 'blog-author.jpg'
 description: 'APOLLO 可以替代 Relay 和 Redux'
 main-class: 'frontend'
 color: '#66CCFF'
 tags:
-- Redux
-- Relay
-- React
-- graphQL
+  - Redux
+  - Relay
+  - React
+  - graphQL
 categories: Review
 twitter_text:
 introduction: '介绍一个使用 GraphQL 进行通信的，将数据流和 React 界面进行干净漂亮的绑定的工具: APOLLO'
 ---
+
 GraphQL 是一个能表现出数据层次性，适合 React 这种单页应用结构的数据层模型。
 
 ![prior](https://cdn-images-1.medium.com/max/800/1*QH_tgaH0Y9bY5T8Bh3FqVw.png)
 
-FaceBook 发现了 RESTful 数据层模型的不便之处，引领业界通过使用他们开发的 Relay 享受到 GraphQL 带来的 Optimistic Update（点完赞之后不用等网络传输延时直接点亮图标）、Data Diff（你随手发出了一大坨请求，Relay 自动帮你只请求真正需要更新的一小部分数据）、Declarative Data Need（数据需求就声明式地写在 React 组件旁边，前端后台都是声明式的，改需求很好改）。这不是一篇介绍 GraphQL 的文章，是一篇介绍怎么用好 GraphQL 的文章，如果你不是很清楚 GraphQL 的写法，请看我以前写的[中文教程](https://github.com/linonetwo/Relay-Tutorial-Chinese/blob/master/Relay-HelloWorld%E6%95%99%E7%A8%8B/Relay-HelloWorld%E7%AC%94%E8%AE%B01.md)（已TJ）。
+FaceBook 发现了 RESTful 数据层模型的不便之处，引领业界通过使用他们开发的 Relay 享受到 GraphQL 带来的 Optimistic Update（点完赞之后不用等网络传输延时直接点亮图标）、Data Diff（你随手发出了一大坨请求，Relay 自动帮你只请求真正需要更新的一小部分数据）、Declarative Data Need（数据需求就声明式地写在 React 组件旁边，前端后台都是声明式的，改需求很好改）。这不是一篇介绍 GraphQL 的文章，是一篇介绍怎么用好 GraphQL 的文章，如果你不是很清楚 GraphQL 的写法，请看我以前写的[中文教程](https://github.com/linonetwo/Relay-Tutorial-Chinese/blob/master/Relay-HelloWorld%E6%95%99%E7%A8%8B/Relay-HelloWorld%E7%AC%94%E8%AE%B01.md)（已 TJ）。
 
-![APOLLO](http://docs.apollostack.com/assets/client-diagrams/1-overview.png)  
+![APOLLO](http://docs.apollostack.com/assets/client-diagrams/1-overview.png)
 
-Meteor 团队有着很丰富的数据流控制经验，他们发现了 Relay 的不便之处，引领业界通过使用他们开发的 APOLLO 享受到更简洁的接口，阅读到[更易懂的教程](http://docs.apollostack.com/index.html)，而且让人们敢用到生产项目里。  
+Meteor 团队有着很丰富的数据流控制经验，他们发现了 Relay 的不便之处，引领业界通过使用他们开发的 APOLLO 享受到更简洁的接口，阅读到[更易懂的教程](http://docs.apollostack.com/index.html)，而且让人们敢用到生产项目里。
 
-![data flow 1](http://docs.apollostack.com/assets/client-diagrams/3-minimize.png)  
+![data flow 1](http://docs.apollostack.com/assets/client-diagrams/3-minimize.png)
 
-它的书写流程从 UI 开始，这里使用了 HOC，和 Redux、Relay 很像:  
+它的书写流程从 UI 开始，这里使用了 HOC，和 Redux、Relay 很像:
 
 ```javascript
 // Feed.js
@@ -129,12 +130,12 @@ const FeedWithData = connect({
 export default FeedWithData;
 ```
 
-接下来 APOLLO 会自动处理 Minimize、Augment、Fetch 的部分，也就是说，只要实现告诉 APOLLO 你的服务器地址，它就会自动找出真正需要更新的界面对应的那一小部分请求，处理 GraphQL Schema Decorators，打包请求，发给服务端。  
+接下来 APOLLO 会自动处理 Minimize、Augment、Fetch 的部分，也就是说，只要实现告诉 APOLLO 你的服务器地址，它就会自动找出真正需要更新的界面对应的那一小部分请求，处理 GraphQL Schema Decorators，打包请求，发给服务端。
 
 下面再看看服务端怎么回应我们的请求。
-![data flow 2](http://docs.apollostack.com/assets/client-diagrams/4-normalize.png)  
+![data flow 2](http://docs.apollostack.com/assets/client-diagrams/4-normalize.png)
 
-先用 express、HAPI、Connect 或 koa 接收一下发来的 JSON 格式的请求:  
+先用 express、HAPI、Connect 或 koa 接收一下发来的 JSON 格式的请求:
 
 ```javascript
 // server.js
@@ -147,30 +148,32 @@ const executableSchema = makeExecutableSchema({
   resolvers,
 });
 
-app.use('/graphql', apolloExpress((req) => {
-  const gitHubConnector = new GitHubConnector({
-    clientId: GITHUB_CLIENT_ID,
-    clientSecret: GITHUB_CLIENT_SECRET,
-  });
+app.use(
+  '/graphql',
+  apolloExpress(req => {
+    const gitHubConnector = new GitHubConnector({
+      clientId: GITHUB_CLIENT_ID,
+      clientSecret: GITHUB_CLIENT_SECRET,
+    });
 
-  return {
-    schema: executableSchema,
-    context: {
-      user,
-      Repositories: new Repositories({ connector: gitHubConnector }),
-      Users: new Users({ connector: gitHubConnector }),
-      Entries: new Entries(),
-      Comments: new Comments(),
-    },
-  };
-}));
-
+    return {
+      schema: executableSchema,
+      context: {
+        user,
+        Repositories: new Repositories({ connector: gitHubConnector }),
+        Users: new Users({ connector: gitHubConnector }),
+        Entries: new Entries(),
+        Comments: new Comments(),
+      },
+    };
+  })
+);
 ```
 
 我们传入了 resolvers 和 schema 合体而成的 executableSchema，以及一个 context，executableSchema 描述了我们接收和返回的数据，context 是实际操作数据库的工具。  
-下面我们来分别看看它们长什么样。  
+下面我们来分别看看它们长什么样。
 
-Schema 来自于这个文件，它在比较高的层次上描述了我们接收和返回的数据长什么样:  
+Schema 来自于这个文件，它在比较高的层次上描述了我们接收和返回的数据长什么样:
 
 ```javascript
 // schema.js
@@ -205,7 +208,7 @@ schema {
 export schema;
 ```
 
-resolvers 来自于下面这个对象，我们把它也放在 Schema.js 里，它在比较低的层次上干脏活，实际去数据库取数据的就是它们。之所以它也被放在 Schema.js 里，是因为 schema 定义了获取、改变数据需要什么样格式的输入输出，但它本身没法去取数据对吧，resolvers 就是在 javascript 的层面上实现了这一点。俩兄弟放在一起好参照、修改:  
+resolvers 来自于下面这个对象，我们把它也放在 Schema.js 里，它在比较低的层次上干脏活，实际去数据库取数据的就是它们。之所以它也被放在 Schema.js 里，是因为 schema 定义了获取、改变数据需要什么样格式的输入输出，但它本身没法去取数据对吧，resolvers 就是在 javascript 的层面上实现了这一点。俩兄弟放在一起好参照、修改:
 
 ```javascript
 // schema.js
@@ -246,9 +249,9 @@ export resolvers;
 
 而 Connectors 来自图下面的这个文件，resolveFunctions 通过它来与数据库沟通。
 比如说我们项目中用到了 MongoDB 和 MySQL 的话，我们可以用 APOLLO 社区里分享的，别人写的 SQL connector 和 MongoDB connector 来连接数据库，然后在 Authors 和 Posts 两个 Model 里面使用它们，进行再一次抽象，这样在 Schema.js 里我们就不用再关心使用的是什么数据库了，完美解耦。  
-![Model and Connectors](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/graphql/connector-model-diagram.png)  
+![Model and Connectors](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/graphql/connector-model-diagram.png)
 
-希望你还记得，我们上面传了一个 context 给 APOLLO 服务器中间件:  
+希望你还记得，我们上面传了一个 context 给 APOLLO 服务器中间件:
 
 ```javascript
 // from server.js
@@ -265,11 +268,14 @@ context: { // 在秘书取数据的时候传给秘书的档案，也就是在 gr
 
 ```javascript
 // gitHubConnector.js
-export class GitHubConnector { // connector 一般是一个类
-  constructor({ clientId, clientSecret } = {}) { // connector 中会进行一些验证操作，所以要向构造器传入登陆信息或验证令牌等
+export class GitHubConnector {
+  // connector 一般是一个类
+  constructor({ clientId, clientSecret } = {}) {
+    // connector 中会进行一些验证操作，所以要向构造器传入登陆信息或验证令牌等
     // ...我想到了一些精彩的验证操作，但空位太小写不下了
 
-    this.loader = new DataLoader(this.fetch.bind(this), { // 然后搞一个 DataLoader
+    this.loader = new DataLoader(this.fetch.bind(this), {
+      // 然后搞一个 DataLoader
       // DataLoader 第一个参数是一个函数，它接受一个 id（或其它能作为主键的东西） ，然后用这个 id 向数据库或 API 请求数据，并 cache 起来
       // 它是 Facebook 开发用来配合 GraphQL 后台的包，请看 https://github.com/facebook/dataloader
       // The GitHub API doesn't have batching, so we should send requests as
@@ -278,23 +284,26 @@ export class GitHubConnector { // connector 一般是一个类
     });
   }
 
-  get(path) { // 然后在其他更具体的取数据的函数里，用这个 DataLoader 取数据
+  get(path) {
+    // 然后在其他更具体的取数据的函数里，用这个 DataLoader 取数据
     return this.loader.load(GITHUB_API_ROOT + path);
   }
   // ... 还有一些我们暂时用不到的函数
 }
 ```
 
-这个 GitHubConnector 用起来是这样的:  
+这个 GitHubConnector 用起来是这样的:
 
 ```javascript
 // model.js
 export class Repositories {
-  constructor({ connector }) { // connector 会被作为参数传给 Model
+  constructor({ connector }) {
+    // connector 会被作为参数传给 Model
     this.connector = connector;
   }
 
-  getByFullName(fullName) { // 然后你再用这个 connector 提供的函数来取数据
+  getByFullName(fullName) {
+    // 然后你再用这个 connector 提供的函数来取数据
     return this.connector.get(`/repos/${fullName}`);
   }
 }
@@ -302,7 +311,7 @@ export class Repositories {
 
 有人可能要问了，这样强行解耦，会不会有一种，钦定的感觉啊？  
 事实上你完全可以在 resolver 里就直接连接数据库，完全不用模块化地分成几个部分，但这样的话，写来写去的代码啊，就乃衣服。  
-不过 Connector 这一层一般可以直接用数据库相关的 npm 包:  
+不过 Connector 这一层一般可以直接用数据库相关的 npm 包:
 
 ```javascript
 // model.js
@@ -323,6 +332,6 @@ export class Entries {
 以上就是 GraphQL Server 里需要写的内容。  
 由此，我们就了解了 UI Component 和 GraphQL Server 的写法，请看下图:  
 ![flex](http://docs.apollostack.com/assets/client-diagrams/2-map.png)  
-其余部分就是 APOLLO 的工作了，它将返回的数据[放在 Redux 里](http://docs.apollostack.com/apollo-client/redux.html)，然后更新 UI。  
+其余部分就是 APOLLO 的工作了，它将返回的数据[放在 Redux 里](http://docs.apollostack.com/apollo-client/redux.html)，然后更新 UI。
 
-如果你正在做一个初期 demo，数据需求快速变动，你可以试试 APOLLO; 如果你正在重构一个大型应用，其数据依赖错综复杂，你也可试试 APOLLO。  
+如果你正在做一个初期 demo，数据需求快速变动，你可以试试 APOLLO; 如果你正在重构一个大型应用，其数据依赖错综复杂，你也可试试 APOLLO。

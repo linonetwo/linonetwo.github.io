@@ -13,6 +13,7 @@ categories: Journal
 twitter_text:
 introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还有运维心得'
 ---
+
 我的《[星界边境那么大，我却懒得动](https://onetwo.ren/%E6%98%9F%E7%95%8C%E8%BE%B9%E5%A2%83%E9%82%A3%E4%B9%88%E5%A4%A7-%E6%88%91%E5%8D%B4%E6%87%92%E5%BE%97%E5%8A%A8/)》这篇博客已经坑了老久了，感觉得再体验一下 Starbound 来获取一些灵感，于是我拉上朋友联机 Starbound。
 
 以前和朋友用 Steam 连 Starbound 的时候，如果我用我的台式电脑来作为主机，朋友跟我在一个局域网，那样联机体验还不错。但是如果不在同一个屋子里联机的时候，体验就好不起来了，而且换电脑之后星球上的建筑等数据是不会被 Steam 云同步的，只有角色数据会云同步，要是能自己搭一个服务器，就可以当网游玩了，不用担心备份和 Steam 联机的延迟啦。
@@ -65,7 +66,7 @@ echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
 [22:35:12.441] [Info] Root: Loaded CollectionDatabase in 10.2919 seconds
 ```
 
-我就猜想可能是可怜的破服务器仅有的 1G 内存用光了，于是我就照着 ArchLinux 的维基创建了 5G 的交换文件 [wiki.archlinux.org/Swap\_(简体中文)](https://wiki.archlinux.org/index.php/Swap_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))，不得不赞这个维基之清晰，从上面复制黏贴命令一般不会踩到坑。
+我就猜想可能是可怜的破服务器仅有的 1G 内存用光了，于是我就照着 ArchLinux 的维基创建了 5G 的交换文件 [wiki.archlinux.org/Swap\_(简体中文)](<https://wiki.archlinux.org/index.php/Swap_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)，不得不赞这个维基之清晰，从上面复制黏贴命令一般不会踩到坑。
 
 然而在载入巨大大副本的时候服务器还是会爆卡，客户端上就是一直卡在 beam down 的过程中了，用 `top` 一看原来是因为服务器的物理内存不足，然后 kswapd0 进程就会占用大量 CPU 算力来搬运内存中的游戏数据到 swapfile 里。这么勤劳干嘛呢，这些游戏数据是一个只用不到 20 分钟的副本的。而因为它的勤劳，我在副本里行动都一卡一卡的。
 

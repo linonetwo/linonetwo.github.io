@@ -1,20 +1,21 @@
 ---
 layout: post
-title: "Wrapping RESTful in GraphQL"
+title: 'Wrapping RESTful in GraphQL'
 date: 2017-02-12 10:26:19 +0800
 image: 'blog-author.jpg'
 description: 'Work as an API Gateway'
 main-class: 'frontend'
 color: '#66CCFF'
 tags:
-- Redux
-- Apollo
-- React
-- graphQL
+  - Redux
+  - Apollo
+  - React
+  - graphQL
 categories: Journal
 twitter_text:
 introduction: 'introducting how to wrap existing RESTful API into a GraphQL API Gateway.'
 ---
+
 ## Abstraction
 
 From frontend dev aspect of view, GraphQL is a data layer paradigm that supports declarative Optimistic Update, fetch data following with use, data WYSIWYG, etc. It truly has some advantage above RESTful API, I'm going to introduce how to wrap existing RESTful API into a GraphQL API Gateway, without bothering backend dev, using an example that has been production tested.
@@ -52,18 +53,16 @@ import * as Mapi from '../../lib/Mapi';
   }
 ```
 
-Looks overstaffed, since there are tons of boilerplates but I still can't know what data is inside ```piedata```. That's why I got some  ```Cannot read property 'machine' of undefined``` and ```undefined is not an object```.
+Looks overstaffed, since there are tons of boilerplates but I still can't know what data is inside `piedata`. That's why I got some `Cannot read property 'machine' of undefined` and `undefined is not an object`.
 
 There were other problems, for example, I need to null check deep nested data:
 
 ```html
-<View style={styles.powerload}>
-  <PowerLoad
-    totalLoad={this.state.piedata && this.state.piedata.total ? this.state.piedata.total : 0}
-    currentLoad={this.state.piedata && this.state.piedata.current ? this.state.piedata.current : 0}
-    unit={this.state.piedata && this.state.piedata.unit ? this.state.piedata.unit : 'kw'}
-    rate={this.state.piedata && this.state.piedata.rate ? this.state.piedata.rate : '0%'}
-  />
+<View style="{styles.powerload}">
+  <PowerLoad totalLoad={this.state.piedata && this.state.piedata.total ? this.state.piedata.total : 0}
+  currentLoad={this.state.piedata && this.state.piedata.current ? this.state.piedata.current : 0}
+  unit={this.state.piedata && this.state.piedata.unit ? this.state.piedata.unit : 'kw'} rate={this.state.piedata &&
+  this.state.piedata.rate ? this.state.piedata.rate : '0%'} />
 </View>
 ```
 
@@ -71,7 +70,7 @@ The problem here is that he put his data inside components' state, while state c
 
 Though using redux-saga, dva or so can solve this too, but they can't easily deal with the data-visibility problem: I want my data WYSIWYG, or say what I use is what I fetch.
 
-I want to use ```deviceID``` but Uncle backend likes using ```dviceId```, oh my backend, you misspelled device!
+I want to use `deviceID` but Uncle backend likes using `dviceId`, oh my backend, you misspelled device!
 
 Well, using Redux and GraphQL solve all these problems.
 
@@ -175,7 +174,6 @@ type UserType { # looks like typescript or flowtype, without a "="
 
 We use apollo graphql to set up GraphQL server, type definitions will perform type checking and self-document, etc. it needs resolvers to actually fetch data:
 
-
 ```javascript
 // resolvers.js
 export const resolvers = {
@@ -216,7 +214,7 @@ export const resolvers = {
     },
   },
   // ...
-}
+};
 ```
 
 We offer each field in type definitions a resolver function. When we query some field in our UI component, the query will trigger some of these functions, thus return data we actually need. Data will be type checked, return to our UI component.
@@ -231,15 +229,14 @@ In GraphQL-REST gateway case, [data loader](https://github.com/facebook/dataload
 
 ```javascript
 // offical example
-myLoader.load('A')
-myLoader.load('B')
-myLoader.load('A')
+myLoader.load('A');
+myLoader.load('B');
+myLoader.load('A');
 
 // > [ 'A', 'B', 'A' ]
 ```
 
 But not all your REST API supports array style query batching. (one of my statistic API does, but I haven't tried this yet)
-
 
 ## Set up
 
@@ -266,20 +263,19 @@ export const resolvers = merge(rootResolvers);
 
 export const executableSchema = makeExecutableSchema({ typeDefs, resolvers });
 
-
 type power51ConfigType = {
-  url: string;
-}
+  url: string,
+};
 
 type ezConfigType = {
-  url: string;
-  appKey: string;
-}
+  url: string,
+  appKey: string,
+};
 
 type contextConfigType = {
-  power51Config: power51ConfigType;
-  ezConfig: ezConfigType;
-}
+  power51Config: power51ConfigType,
+  ezConfig: ezConfigType,
+};
 
 export const getDefaultContext = ({ power51Config, ezConfig }: contextConfigType) => {
   // ↓ where I use fetch API to fetch data
@@ -294,10 +290,9 @@ export const getDefaultContext = ({ power51Config, ezConfig }: contextConfigType
     FortuneCookie: new FortuneCookie(),
   };
 };
-
 ```
 
-Note that if you want to use this code both on server-side, web-side and React-Native side, you need to babel it by ```babel-preset-react-native-stage-0``` and never use other preset, since React-Native is doing something tricky to speed up their app, thus they don't use some babel helpers that babel-preset-stage-x will use.
+Note that if you want to use this code both on server-side, web-side and React-Native side, you need to babel it by `babel-preset-react-native-stage-0` and never use other preset, since React-Native is doing something tricky to speed up their app, thus they don't use some babel helpers that babel-preset-stage-x will use.
 
 ## Conclusion
 
@@ -305,4 +300,4 @@ GraphQL is a paradigm that extremely delightful when building a gateway. In this
 
 ## Reference
 
-Translated and mutated from linonetwo's [把REST包装成GraphQL](http://onetwo.ren/%E6%8A%8AREST%E5%8C%85%E8%A3%85%E6%88%90GraphQL/)
+Translated and mutated from linonetwo's [把 REST 包装成 GraphQL](http://onetwo.ren/%E6%8A%8AREST%E5%8C%85%E8%A3%85%E6%88%90GraphQL/)
