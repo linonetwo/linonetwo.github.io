@@ -14,6 +14,8 @@ twitter_text:
 introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还有运维心得'
 ---
 
+## StarBound
+
 我的《[星界边境那么大，我却懒得动](https://onetwo.ren/%E6%98%9F%E7%95%8C%E8%BE%B9%E5%A2%83%E9%82%A3%E4%B9%88%E5%A4%A7-%E6%88%91%E5%8D%B4%E6%87%92%E5%BE%97%E5%8A%A8/)》这篇博客已经坑了老久了，感觉得再体验一下 Starbound 来获取一些灵感，于是我拉上朋友联机 Starbound。
 
 以前和朋友用 Steam 连 Starbound 的时候，如果我用我的台式电脑来作为主机，朋友跟我在一个局域网，那样联机体验还不错。但是如果不在同一个屋子里联机的时候，体验就好不起来了，而且换电脑之后星球上的建筑等数据是不会被 Steam 云同步的，只有角色数据会云同步，要是能自己搭一个服务器，就可以当网游玩了，不用担心备份和 Steam 联机的延迟啦。
@@ -79,3 +81,25 @@ echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
 ![log1](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/starbound/log1.png)
 
 ![log2](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/starbound/log2.png)
+
+## Factorio
+
+Starbound 坏就坏在它是手工小作坊，制造物品和整理物品都很繁琐。于是我又和朋友开始玩 Factorio。有了 Starbound 的经验，我立即选择使用 [LinuxGSM](https://linuxgsm.com/lgsm/fctrserver/) 安装 Factorio。
+
+### Mod
+
+Factorio 的 Mod 不是通过 Steam 管理的，所以需要手动上传到服务器上。我使用 [www.npmjs.com/package/upload-server-1](https://www.npmjs.com/package/upload-server-1) 来上传我在用的 Mod 和 Mod 配置。
+
+在 Mac 上，Mod 位于 `~/Library/Application\ Support/factorio/mods`，用「访达」的「前往文件夹…」功能进去之后，我在服务器上运行 `upload-server -p 5000 -f ./mods` 启动一个上传服务器（先在服务器管理系统的防火墙设置里把 5000 端口的 TCP 出入打开），在上传文件里把刚刚打开的 Mac 上的 Mod 文件夹拖进去。
+
+上传的时候好像出了点问题，不过接着我用 `serve .` 启动一个静态文件服务器（[www.npmjs.com/package/serve](https://www.npmjs.com/package/serve)），看到所有文件都成功放到 `~/serverfiles/mods` 里面了。
+
+### 配置
+
+一开始服务端没有报错，但是客户端说无法连接，查了老半天没用的资料我才意识到要先同步服务端和客户端的 Mod。
+
+等 Mod 列表完全一致之后，服务器启动后很快就退出了，用 `serve` 起一个服务器看 log ，发现最后的报错是 `Error ServerMultiplayerManager.cpp:96: MultiplayerManager failed: "Error while running on_init: Given seed value (34186445404) is too big, the data type allows values from 0 to 4294967295`，看来这个复杂的 Mod 没有适配多人模式。在 `./serverfiles/mods/mod-list.json` 里将它关掉就好了。
+
+这时我还是连不上，用 `./fctrserver console` 查看运行情况，发现出现了 `factorio Error ServerMultiplayerManager.cpp:633: Matching server connection failed: Error when creating server game: Missing token.`，经过一番调查，才知道原来要把 config 里面的 `username` 和 `password` 填上论坛的账号密码才行。不过填了还是没法解决这个问题，我才发现原来用 LinuxGSM 创建的游戏，会读取另一个配置文件 `./serverfiles/data/fctrserver.json`，在这个文件里修改就解决了这个问题。
+
+但还是出现 `Refusing connection for address (IP ADDR:({xxx:7018})), username (linonetwo012). UserVerificationMissing`，这是因为配置文件里开了 `"require_user_verification": true,`，校验不成功可能是因为我没有公网 IP，将这一项改为 `false` 就能连上了。
