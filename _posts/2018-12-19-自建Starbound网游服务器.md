@@ -44,7 +44,7 @@ echo login 账号填这 密码填这 > moddownload.sh && curl -s --data "collect
 echo -e "{\n  \"assetDirectories\": [\n    \"../assets/\",\n    \"../mods/\",\n    " && \
 curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
 | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
-| sed 's#^#"../steamapps/workshop/content/211820/#' | sed 's#/"#/#' | tr -t '\n' ',' && \
+| sed 's#^#"../../Steam/steamapps/workshop/content/211820/#' | sed 's#/"#/#' | tr -t '\n' ',' && \
 echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
 ```
 
