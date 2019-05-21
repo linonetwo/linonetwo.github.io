@@ -30,6 +30,8 @@ introduction: '本来想用浏览器框来快速搜索，但是发现用一个�
 
 于是我[自行修改了 Zazu](https://github.com/tinytacoteam/zazu/pull/341)，让它支持最新的 NodeJS 版本，还加上了磨砂玻璃效果等等，然后发布了一版给自己用。
 
+> 链接:https://pan.baidu.com/s/1aoScfago0PuGKJQtKYZEHQ  密码:krdd
+
 ## 改别人的插件
 
 我通过修改古人的陈年代码很快捣鼓出了一个翻译+加入 Anki 的插件 [zazu-translation](https://github.com/linonetwo/zazu-translation)，源码很简单，首先在插件的 `zazu.json` 里面声明有哪些 Block，此处会把输入丢给 `src/cn.js` 翻译，然后把输出连接到 `"copy", "add-to-anki"` 这两个 Block 里，分别又调用另外两个 JS 脚本格式化输出复制到剪贴板、通过 AnkiConnect 保存到 Anki 里:
@@ -148,3 +150,9 @@ introduction: '本来想用浏览器框来快速搜索，但是发现用一个�
 现在我算是有一个本地的自定义服务了（查询翻译并添加到本地的 Anki 笔记里），但暂时还没遇到需要更多本地服务的场景，毕竟大多数自动化操作都由 VSCode 的插件和 Task 完成了。Zazu 暂时还是没有特别大的用处，毕竟实际上只有一个调用本地服务的 JS 脚本需要它来管理。
 
 可能当我不再从事编码工作，离开 VSCode 等高度自动化的环境，进入传统办公的蛮荒之地的时候，Alfred、Zazu 这样的脚本服务管理器才会发挥出巨大的威力吧。
+
+最后，如果想试试看的 Mac 用户可以在百度盘下载：
+
+> 链接:https://pan.baidu.com/s/1aoScfago0PuGKJQtKYZEHQ  密码:krdd
+
+其他平台用户请从源码自行打包，因为我目前没有其他平台的机器，而自动打包的权限在 tinyzazuteam 那边（这说明了 MIT 协议其实只放开了源码，而没有放开 merge PR、CI 流程的权限的话，开源项目其实还是掌握在原始开发者手里嘛），我也没空自己重新配流程，所以目前最新版只有 Mac 版本，其他平台的只有未经我升级 Electron 版本的旧版啦。
