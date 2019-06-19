@@ -12,6 +12,8 @@ categories: Journal
 introduction: '本来想用浏览器框来快速搜索，但是发现用一个类似 Alfred 的脚本管理器可能更快捷'
 ---
 
+下载地址： [zazuapp.org/download](http://zazuapp.org/download/)
+
 在集智俱乐部注意力与知识管理群里最近讨论起了 Alfred，一位同志建议我使用它，他跟我分享了 [alfred-github-workflow](https://github.com/gharlan/alfred-github-workflow) 说：「感觉作为入口，它做得很不错了。可以直接搜索我的收藏夹、本地文档（甚至 PDF 内容。不过我用不到）、github、api 文档。极少找不到的时候，回车就跳到 google 搜索」。
 
 但是我不以为然，我提出「这些用浏览器自带的搜索框都能搞定嘛，我[只需要搞一个快捷键唤出浏览器框](https://onetwo.ren/%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BE%93%E5%85%A5%E6%A1%86%E4%BB%A3%E6%9B%BFAlfred/)就好了，反正我要搜索的东西都是在线服务。」这样的观点。
@@ -28,9 +30,9 @@ introduction: '本来想用浏览器框来快速搜索，但是发现用一个�
 
 [Zazu](https://github.com/tinytacoteam/zazu) 就不错，能根据配置文件从 Github 上直接下载插件，它会把仓库 clone 下来并用自带的 `npm` 执行 `npm i` 来完成插件的安装。插件是以 Block 组织的，每个 Block 可以接受别的 Block 作为输入，并输出结果到别的 Block 里，最终调用一些 Zazu 内置的 Block 打开浏览器等等。而且它是 MIT 协议开源的，我想怎么改都可以，还能重新发布等等。
 
-于是我[自行修改了 Zazu](https://github.com/tinytacoteam/zazu/pull/341)，让它支持最新的 NodeJS 版本，还加上了磨砂玻璃效果等等，然后发布了一版给自己用。
+于是我[自行修改了 Zazu](https://github.com/tinytacoteam/zazu/pull/341)，让它支持最新的 NodeJS 版本，还加上了磨砂玻璃效果等等，然后发布了一版给自己用。（更新：我已加入开发团队接手项目）
 
-> 链接:https://pan.baidu.com/s/1aoScfago0PuGKJQtKYZEHQ  密码:krdd
+> [Download Zazu](http://zazuapp.org/download/)
 
 ## 改别人的插件
 
@@ -151,8 +153,6 @@ introduction: '本来想用浏览器框来快速搜索，但是发现用一个�
 
 可能当我不再从事编码工作，离开 VSCode 等高度自动化的环境，进入传统办公的蛮荒之地的时候，Alfred、Zazu 这样的脚本服务管理器才会发挥出巨大的威力吧。
 
-最后，如果想试试看的 Mac 用户可以在百度盘下载：
+（划掉）最后，如果想试试看的 Mac 用户可以在百度盘下载，其他平台用户请从源码自行打包，因为我目前没有其他平台的机器，而自动打包的权限在 tinyzazuteam 那边（这说明了 MIT 协议其实只放开了源码，而没有放开 merge PR、CI 流程的权限的话，开源项目其实还是掌握在原始开发者手里嘛），我也没空自己重新配流程，所以目前最新版只有 Mac 版本，其他平台的只有未经我升级 Electron 版本的旧版啦。（/划掉）
 
-> 链接:https://pan.baidu.com/s/1aoScfago0PuGKJQtKYZEHQ  密码:krdd
-
-其他平台用户请从源码自行打包，因为我目前没有其他平台的机器，而自动打包的权限在 tinyzazuteam 那边（这说明了 MIT 协议其实只放开了源码，而没有放开 merge PR、CI 流程的权限的话，开源项目其实还是掌握在原始开发者手里嘛），我也没空自己重新配流程，所以目前最新版只有 Mac 版本，其他平台的只有未经我升级 Electron 版本的旧版啦。
+我已经获得了 tinyzazuteam 的 Member 权限，获取了 CI 流程的控制权，现在已发布最新版到官网 [Download Zazu](http://zazuapp.org/download/) 欢迎下载！
