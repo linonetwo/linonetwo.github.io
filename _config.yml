@@ -48,6 +48,9 @@ links:
     url: series
   - title: Tags
     url: tags
+  - title: IPFS Gateway
+    url: https://onetwo.ren/ipfs-browser-gateway/
+    out: true
 
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
