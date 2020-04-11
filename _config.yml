@@ -34,8 +34,8 @@ compress_html:
 links:
   - title: Home
     url: 
-  - title: KnowledgeBase (Meme of LinOnetwo - TiddlyWiki5)
-    url: https://onetwo.ren/Meme-of-LinOnetwo/
+  - title: Wiki知识库 (Meme of LinOnetwo - TiddlyWiki5)
+    url: https://wiki.onetwo.ren/
     out: true
   - title: Drafts
     url: https://www.notion.so/openmemory/4a6c3229a78e4c1ba7c6b2261804fe34
