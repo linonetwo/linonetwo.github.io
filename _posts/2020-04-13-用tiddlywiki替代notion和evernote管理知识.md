@@ -8,38 +8,113 @@ main-class: 'memo'
 color: '#9E9E9E'
 tags:
   - memo
+  - WIP
 categories: Journal
 twitter_text:
 introduction: '配置免费云同步的非线性知识管理系统 TiddlyWiki，身兼私有笔记系统和公开 Wiki 二职'
 ---
 
+我的 Wiki：[wiki.onetwo.ren](https://wiki.onetwo.ren/)
+
 我曾经用过很多年的印象笔记，里面装着四处收集来的碎片内容，比如[什么是「共产中文腔调」？ - 调查类问题 - 知乎](http://www.zhihu.com/question/19687065)、我高考的分数截图等等；我也用了几年的 Notion，用它记待办事项、给认识的人写备忘小传；我还用了很久的 Anki，用它把英语单词、数学公式、算法套路等碎片知识装进脑中。
 
-但这些工具似乎都对两个对我来说很关键的概念缺乏关注：「元信息」和「自动化」。我认为，只有能充分保存元信息的自动化的知识管理系统才能称得上「好用」。
+但这些工具似乎都不关注两个对我来说很关键的概念：「元信息」和「自动化」。我认为，只有能充分保存元信息的自动化的知识管理系统才能称得上「好用」。
+
+这么说来，个人知识管理系统似乎有一个不可能三角：**免费-好用-好看，只能拥有其中两样**。Notion 要付费、印象笔记不好用、Quip 和飞书等系统不是为个人服务的……
+
+然而 [TiddlyWiki](https://tiddlywiki.com/) 似乎打破了这个不可能三角，引入了第四个元素：它 **免费、好用，还蛮好看** ，唯一的缺点就是需要具备动手能力才能把积木式的它拼成自己想要的形状。对于有动手能力的人来说，它就是完美的。
+
+![截图 - Tiddlywiki 桌面应用：桌面版笔记工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/tiddlywiki-desktop-nodejs-webcatalog.png)
+（↑ 图：Tiddlywiki 桌面应用：桌面版笔记工具）
+
+![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/menubar-tiddlywiki-quick-search-tool.png)
+（↑ 图：Tiddlywiki 桌面应用：目录栏快速搜索小工具）
+
+## 积木式的知识管理系统
+
+TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配置它。在这一段我将介绍如何配置 TiddlyWiki，使它变成一个漂亮的桌面应用，享受免费的无限大的存储、管理私有数据、发布㐓公开的知识到博客里。
+
+### 启动 NodeJS 版 Wiki
+
+在[安装完 NodeJS](https://nodejs.org/zh-cn/download/) 并拥有 [Github](https://github.com/) 账号后，就可以打开 [Wiki 模板](https://github.com/linonetwo/Tiddlywiki-NodeJS-Github-Template)， 点击绿色的 Use This Template 按钮：
+
+![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/use-this-template.png)
+
+在接下来的表单里填好 Wiki 名字等信息，这样一个配置好的 Wiki 仓库就会出现在你的 Github 账号下了。
+
+接着在你账号下刚生成的 Wiki 仓库里点击 Clone or download 按钮，点击 Open in Desktop， 就可以用[桌面应用 Github Desktop](https://desktop.github.com/) 把你的这个 Wiki 同步到桌面了。
+
+接着用[VSCode](https://code.visualstudio.com/)之类的代码编辑器打开刚同步下来的 Wiki 代码仓库，按 `ctrl + ~` 快捷键打开终端，输入 `npm i` 安装 wiki 所需的依赖。
+
+依赖安装完成后输入 `npm run start:nodejs` 启动 Wiki。现在你应该可以在浏览器打开 [127.0.0.1:11012](http://127.0.0.1:11012/) 看到你的 wiki 了。
+
+### 制作桌面 App
+
+接着可以下载一个 [WebCatalog](https://webcatalogapp.com/)，下载打开后，点击 Create Custom App 按钮，然后如下图输入本地 wiki 的网址，并取一个名字、加一个图标：
+
+![截图 - Tiddlywiki 桌面应用：创建桌面应用](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/webcatalog-localhost-app.png)
+
+WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打开你的 App 后，打开设置界面，里面有一个 Attach to menu bar 的选项，可以再创建一个一模一样的 APP ，勾上这个选项，作为快速搜索小工具使用。
+
+![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/menubar-tiddlywiki-quick-search-tool.png)
+
+### 私有内容
+
+之前创建的代码仓库是公开的，所以同步备份上去的 wiki 就相当于你的博客，那如果我们希望添加自己的 TodoList 等等私有内容呢？
+
+可以到 Github 上[创建一个空白的代码仓库](https://github.com/new)，创建时设置为 private，不要加 readme 和 gitignore。
+
+同样用 Github Desktop 来 Clone 到本地，让这个代码仓库文件夹和之前 clone 下来的文件夹放在同一个目录下，然后在里面创建一个 tiddlers 文件夹，用于存放你的私有信息。
+
+接着回到你的公有仓库里，按 `ctrl+c` 终止之前运行的 `npm run start:nodejs`，然后在终端里运行 `npm run install:nodeJSWatcher` 来配置开机自动启动 wiki，并顺便启动 wiki、监听两个仓库里的文件变化，一旦你新加了笔记到 Wiki 里，脚本就会倒计时三十分钟，倒计时结束后就自动同步数据到 Github 上。
+
+如果你给一个 Tiddler 加上 APrivateContent 这个 tag，TiddlyWiki 就会把你加到 Wiki 里的内容保存到刚刚创建的私有仓库里的 tiddlers 文件夹里了，而且倒计时三十分钟后会自动备份到 Github 上你的线上私有仓库里。
+
+### 部署公开内容为网站
+
+既然我们有一些开放的内容，为什么不把它们发布成一个有自己域名的网站呢？这样你可以把你的一些笔记很方便地分享给朋友。
+
+首先编辑开放的仓库下的 `now.json` 文件，修改里面的 name 为你希望你的在线 wiki 拥有的名字，只能使用小写英文和下划线。
+
+然后到 [免费为程序员部署网站的 Zeit](https://zeit.co/) 上，用 Github 账号登录，点击 Import Project 按钮，然后 From Git Repository → Import Project From Github → 选择你的公开的那个仓库。
+
+![把项目导入到 Zeit 上](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/import-to-zeit.png)
+
+然后 Zeit 的 now.sh 部署服务就会在每次你的公开仓库备份到 Github 时，为你部署一个网站啦，类似于 [meme-of-lin-onetwo.now.sh](https://meme-of-lin-onetwo.now.sh/)。
+
+### 对于非技术人员还是有点复杂的
+
+至此，一个有桌面端 App、能自动备份、能存储隐私信息、能发布内容为网站的，强大的知识管理系统就配置好啦！
+
+不得不说过程还是稍显繁琐的，对于曾经分别使用过其中每一项技术的我来说，设计和配置这套框架是没有特别大的阻碍的，尤其是在 Github 和 Zeit 提供了对开发者非常友好的免费服务的情况下。但是对于非程序员来说，可能就有点吃不消了。
+
+接下来我会简单谈谈我心中 TiddlyWiki 的美观、免费和强大之处。
+
+## 美观的 TiddlyWiki
+
+我之前喜欢 Notion 的一个重要理由就是它的设计很好看，所以我配置自己的 wiki 时，就打开 notion 网页版，用开发者工具复制它的样式表，择其善者而从之。
+
+### 添加自定义样式
+
+给一个 Tiddler 加上 `$:/tags/Stylesheet` 标签即可让它在 wiki 启动时加到 wiki 的样式表里，例如我就在[自定义链接样式](https://wiki.onetwo.ren/#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5%E6%A0%B7%E5%BC%8F)里黏贴适配了 Notion 的链接的样式，鼠标悬浮后会低调地变色，凸显一种简约的尊贵。
+
+## 免费的 TiddlyWiki
+
+往 TiddlyWiki 里拖很多图片之后，通过 now.sh 发布的博客可能会越变越大。所以我通过[把图片文件的链接改成指向 Github 上的图片](https://wiki.onetwo.ren/#%E5%A4%96%E7%BD%AE%E6%96%87%E4%BB%B6)，来减小生成的 HTML 的体积。
+
+这相当于把 Github 作为免费无限容量的图床来使用了，只要浏览量不是特别大，就不会收到封禁邮件。
+
+## 强大的 TiddlyWiki
 
 我关注一个信息是什么，它从哪里来，要到哪里去……也就是关于信息的信息：标签、源谱、关联。我们的大脑会保存和一个信息相关的很多其他信息，而如果一个知识管理系统也同样保存了这些元信息，就可以用很贴近我们大脑的形式存储知识，让我们查找、利用知识都更加便捷。
 
 自动化则能减少很多复制黏贴文本的劳作，还能让信息被以各种方式聚合，出现在更多地方，更容易被找到。
 
-这么说来，个人知识管理系统似乎有一个不可能三角：**免费-好用-好看，只能拥有其中两样**。Notion 要付费、印象笔记不好用、Quip和飞书等系统不是为个人服务的……
+### 非线性写作
 
-然而 [TiddlyWiki](https://tiddlywiki.com/) 似乎打破了这个不可能三角，引入了第四个元素：它 **免费、好用，还蛮好看** ，就是需要具备动手能力才能把积木式的它拼成自己想要的形状。
+在我构思一篇文章时，我的思绪经常在记忆的网上游走，把很多与主题相关的碎片拼到脑中的文章里。但是，大脑和知识管理系统是不同步的，很多碎片内容并不存在于机器里，而只存在于大脑中。这时候要是先把碎片内容录入到电脑里，再回过头继续在记忆中漫游，就有可能打断漫游的思路，消弭刚刚产生的灵感。
 
-![截图 - Tiddlywiki 桌面应用：桌面版笔记工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/tiddlywiki-desktop-nodejs-webcatalog.png)
-（↑图：Tiddlywiki 桌面应用：桌面版笔记工具）
-
-![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/menubar-tiddlywiki-quick-search-tool.png)
-（↑图：Tiddlywiki 桌面应用：目录栏快速搜索小工具）
-
-## 积木式的知识管理系统
-
-TiddlyWiki 是一个自由的软件，
-
-## 重构：改善既有文档的设计
-
-在我构思一篇文章时，我的思绪经常在记忆的网上。
-
-大脑和知识管理系统是不同步的，很多内容并不存在于机器里，而只存在于大脑中。先用一个链接占坑
+更好的方法是，先用一个链接占坑：
 
 ```
 <<reuse-tiddler "允许用git-sync脚本自动同步代码">>
@@ -47,4 +122,52 @@ TiddlyWiki 是一个自由的软件，
 
 ![截图 - 通过 Transclusion 稍后再编辑具体内容](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/edit-later.png)
 
-## 与其他知识利用系统联动
+等整篇文章的框架写好之后，再回过头来点击「允许用 git-sync 脚本自动同步代码」的按钮，创建这篇碎片笔记，把具体内容录入其中，然后 TiddlyWiki 会自动把碎片内容填充到刚刚占的坑里。
+
+### 重构：改善既有文档的设计
+
+内容碎片化的好处有很多：
+
+1. 可能会有多篇笔记要引用同样的内容，把这部分内容重构（refactor）出来，然后用 [Transclusion（嵌入）](https://tiddlywiki.com/#Transclusion)的方式把它们自动填充到多个坑里，而不是通过复制黏贴的方式填坑。这样以后如果要修改的话，改一处地方即可，不用找所有地方改，不会发生漏改的情况。
+1. 可以添加段落级元信息，例如可以把一篇主题 A 的文章中的一个段落放到主题 B 的文件夹里，因为这个段落在谈主题 B。这样以后写主题 B 的文章时就很容易找到这个碎片作为参考资料。
+1. 通过全文检索搜参考资料时，不用读大段的内容，可以直接看小段的参考资料是否对当下的自己有价值
+
+既然内容碎片化好处这么大，我们肯定希望在把其他地方的内容复制黏贴到 TiddlyWiki 里的时候，就把它拆分得细一点。
+
+这种简单的重构可以使用[文本切分插件](https://tiddlywiki.com/editions/text-slicer/)来自动切分，也可以手动臻选出以后可能自己会用到的部分，加上合适的标签（相当于放到与标签同名的文件夹里）。
+
+### 写 JS 用户脚本自动化操作
+
+我已经习惯了用方便的 [Copy On Select Firefox 插件](https://addons.mozilla.org/en-US/firefox/addon/copy-on-select)，现在到了 TiddlyWiki 桌面 App 里，我经常还是以为选中了就复制了，然后黏贴到别的地方才发现其实并没有复制，很不习惯。
+
+这个功能 TiddlyWiki 显然不会自带，目前也没有搜到插件可以做这件事。所以我自己重新写了一个[适配 TiddlyWiki 的小脚本](https://wiki.onetwo.ren/#%E9%80%89%E4%B8%AD%E6%96%87%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%A4%8D%E5%88%B6)，做成启动脚本。脚本比插件要轻量，不需要打包发布等等繁琐的流程，自己想要啥功能半小时写完调试好就能用。
+
+通过把 JS 代码加上 `$:/tags/RawMarkup Tag` 、并用 `<script type="text/javascript"> </script>` 包裹，就可以让这段代码在 wiki 启动时执行了。
+
+我在代码里就获取选区，判断当前是不是在编辑器里，如果不是就复制。
+
+### 覆盖系统默认行为
+
+TiddlyWiki 里几乎所有功能都是可覆盖的，一般分为三种：
+
+1. wikitext ，主要用于写 UI，例如卡片的渲染模板，修改后可以做到「在每个卡片底下显示相关卡片」等功能
+1. filter ，可以和 wikitext 结合起来写渲染模板，也可以用于「[把加了 APrivateContent 标签的笔记保存到私有仓库里面](https://wiki.onetwo.ren/#%24%3A%2Fconfig%2FFileSystemPaths)」等功能
+1. JS，所有 wikitext 和 filter 最终都要依赖 JS 的实现，覆盖想要修改的 JS 可以实现「[鼠标悬浮预览插件本来不会自动关上预览窗口，我让它自动关闭](https://wiki.onetwo.ren/#%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E9%A2%84%E8%A7%88%E5%86%85%E9%83%A8%E9%93%BE%E6%8E%A5)」等功能
+
+TiddlyWiki 和 Anki 很相似的一点是，笔记和卡片是分离的，也就是笔记只保留内容和元信息，在 Wiki 实际运行时，才通过模板渲染为卡片。所以可以通过写 wikitext 宏或 JS 宏，来在运行时对展示做各种变换。
+
+### 聚合数据
+
+[Datalog 及其方言](https://github.com/tonsky/datascript) 是用于输入知识还有聚合、推理、利用知识的编程语言，虽然很强大，但使用起来还是有一定门槛的。
+
+TiddlyWiki 让我们可以用更容易学会的方式，在美观的界面里为碎片知识加上元信息，例如可以给一个「我的剪刀」的笔记，加上 `location: 客厅` 的元信息，相当于描述了知识「我的剪刀放在客厅里」。这样就可以写一个简单的 filter 来把所有放在客厅里的物品列成一个列表，展示在一个动态生成的笔记里了。
+
+在以后你找不到剪刀的时候，就可以直接搜索「我的剪刀」，然后查看它的 `location` 字段知道它放在哪里。更可以把这些元信息传给一个问答机器人，你语音问他你的剪刀在哪，它通过简单的意图理解、检索、取字段就能帮你找到客厅里的剪刀了。
+
+## 结语
+
+TiddlyWiki 的[社区论坛](https://groups.google.com/forum/#!forum/tiddlywiki)非常活跃，每天都能看到新的点子涌现出来，大家处于对这个工具的喜爱，在不断贡献自己的想法和代码来推动 TiddlyWiki 变得越加美观、强大。
+
+我也在做各种尝试，希望把 TiddlyWiki 和 Anki、语音助手、SoLiD POD 连接起来，让它作为一个数字化的我，承载我的各种知识，利用这些知识使我的生活变得更加便利。
+
+如果你也为其美观、强大所动，欢迎也加入这个社区，搜索初用时疑问的解答、为其他新手解答疑惑，以及贡献自己的一技之长让更多人为其所动。
