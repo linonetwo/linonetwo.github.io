@@ -33,6 +33,8 @@ introduction: '配置免费云同步的非线性知识管理系统 TiddlyWiki，
 
 TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配置它。在这一段我将介绍如何配置 TiddlyWiki，使它变成一个漂亮的桌面应用，享受免费的无限大的存储、管理私有数据、发布㐓公开的知识到博客里。
 
+注意，目前「开机自动启动」这个功能只实现了 Mac 版的。
+
 ### 启动 NodeJS 版 Wiki
 
 在[安装完 NodeJS](https://nodejs.org/zh-cn/download/) 并拥有 [Github](https://github.com/) 账号后，就可以打开 [Wiki 模板](https://github.com/linonetwo/Tiddlywiki-NodeJS-Github-Template)， 点击绿色的 Use This Template 按钮：
