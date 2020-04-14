@@ -55,6 +55,8 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 ![截图 - Tiddlywiki 桌面应用：创建桌面应用](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/webcatalog-localhost-app.png)
 
+（纯色图标可以下载我做的[黑色](https://github.com/linonetwo/Meme-of-LinOnetwo/blob/7033fc1e1ca60f4e825d4fb8dc5fc79b5bcffd3b/MemeOfLinonetwo/tiddlers/TiddlyWikiIconBlack.png)和[白色](https://github.com/linonetwo/Meme-of-LinOnetwo/blob/7033fc1e1ca60f4e825d4fb8dc5fc79b5bcffd3b/MemeOfLinonetwo/tiddlers/TiddlyWikiIconWhite.png)的，或者去网上搜原版蓝色的）
+
 WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打开你的 App 后，打开设置界面，里面有一个 Attach to menu bar 的选项，可以再创建一个一模一样的 APP ，勾上这个选项，作为快速搜索小工具使用。
 
 ![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/menubar-tiddlywiki-quick-search-tool.png)
