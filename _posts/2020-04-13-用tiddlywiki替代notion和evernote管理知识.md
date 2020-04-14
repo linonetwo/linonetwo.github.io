@@ -8,7 +8,6 @@ main-class: 'memo'
 color: '#9E9E9E'
 tags:
   - memo
-  - WIP
 categories: Journal
 twitter_text:
 introduction: '配置免费云同步的非线性知识管理系统 TiddlyWiki，身兼私有笔记系统和公开 Wiki 二职'
@@ -66,7 +65,7 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 
 同样用 Github Desktop 来 Clone 到本地，让这个代码仓库文件夹和之前 clone 下来的文件夹放在同一个目录下，然后在里面创建一个 tiddlers 文件夹，用于存放你的私有信息。
 
-接着回到你的公有仓库里，按 `ctrl+c` 终止之前运行的 `npm run start:nodejs`，然后在终端里运行 `npm run install:nodeJSWatcher` 来配置开机自动启动 wiki，并顺便启动 wiki、监听两个仓库里的文件变化，一旦你新加了笔记到 Wiki 里，脚本就会倒计时三十分钟，倒计时结束后就自动同步数据到 Github 上。
+接着回到你的公有仓库里，按 `ctrl+c` 终止之前运行的 `npm run start:nodejs`，运行 `npm run install:privateRepo` 来把私有仓库软连接到公有仓库里，然后在终端里运行 `npm run install:nodeJSWatcher` 来配置开机自动启动 wiki，并顺便启动 wiki、监听两个仓库里的文件变化，一旦你新加了笔记到 Wiki 里，脚本就会倒计时三十分钟，倒计时结束后就自动同步数据到 Github 上。
 
 如果你给一个 Tiddler 加上 APrivateContent 这个 tag，TiddlyWiki 就会把你加到 Wiki 里的内容保存到刚刚创建的私有仓库里的 tiddlers 文件夹里了，而且倒计时三十分钟后会自动备份到 Github 上你的线上私有仓库里。
 
