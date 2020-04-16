@@ -41,17 +41,21 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 ![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/use-this-template.png)
 
-在接下来的表单里填好 Wiki 名字等信息，这样一个配置好的 Wiki 仓库就会出现在你的 Github 账号下了。
+在接下来的表单里填好 Wiki 名字等信息（可能会说你给 Wiki 取的名字不行，但是有时候别管它直接点下一步也行），这样一个配置好的 Wiki 仓库就会出现在你的 Github 账号下了。
 
-接着在你账号下刚生成的 Wiki 仓库里点击 Clone or download 按钮，点击 Open in Desktop， 就可以用[桌面应用 Github Desktop](https://desktop.github.com/) 把你的这个 Wiki 同步到桌面了。
+接着在你账号下刚生成的 Wiki 仓库里点击 Clone or download 按钮，点击 Open in Desktop， 就可以用[桌面应用 Github Desktop](https://desktop.github.com/) 把你的这个 Wiki 同步到桌面了。你在 Github Desktop 上就可以看到如下的界面：
 
-接着用[VSCode](https://code.visualstudio.com/)之类的代码编辑器打开刚同步下来的 Wiki 代码仓库，按 `ctrl + ~` 快捷键打开终端，输入 `npm i` 安装 wiki 所需的依赖。如果 VSCode 让你安装 git
+![Github Desktop](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/github-desktop.png)
 
-依赖安装完成后输入 `npm run start:nodejs` 启动本地 Wiki 服务器。现在你应该可以在浏览器打开 [127.0.0.1:11012](http://127.0.0.1:11012/) 看到你的 wiki 了。如果打不开，可能是因为 [Edge 浏览器无法打开本地服务器提供的网页](https://www.google.com/search?client=firefox-b-d&q=edge+%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80+127)等小问题，Google 一下就能解决。
+接着用[VSCode](https://code.visualstudio.com/)之类的代码编辑器打开刚同步下来的 Wiki 代码仓库（如果 VSCode 让你安装 git，就装），按 `ctrl + ~`（不同系统可能不一样，可以选择如下图所示用菜单打开）快捷键打开终端，输入 `npm i` 安装 wiki 所需的依赖。
 
-P.S. 如果你和我一样不喜欢在终端里打字输入 `npm run start:nodejs`，你可以直接点 VSCode 侧边栏上的 「NPM SCRIPTS」里的按钮来启动 wiki 服务器，如图：
+![截图 - 在 vscode 里创建新的终端](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/new-terminal-chinese.png)
 
-![截图 - VSCode 里的 NPM  SCRIPTS](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/npm-scripts.png)
+依赖安装完成后输入 `npm run start:wikiServer` 启动本地 Wiki 服务器。当然，如果你和我一样不喜欢用命令行在终端里打字输入 `npm run start:wikiServer`，你可以像我一样可以直接展开 VSCode 上的 NPM SCRIPTS，然后点击你该点的按钮来启动 wiki 服务器：
+
+![截图 - VSCode 里的 NPM  SCRIPTS](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/npm-scripts-chinese.png)
+
+现在你应该可以在浏览器打开 [127.0.0.1:11012](http://127.0.0.1:11012/) 看到你的 wiki 了。如果打不开，可能是因为 [Edge 浏览器无法打开本地服务器提供的网页](https://www.google.com/search?client=firefox-b-d&q=edge+%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80+127)等小问题，Google 一下就能解决。
 
 ### 制作桌面 App
 
@@ -71,11 +75,31 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 
 之前创建的代码仓库是公开的，所以同步备份上去的 wiki 就相当于你的博客，那如果我们希望添加自己的 TodoList 等等私有内容呢？
 
-可以到 Github 上[创建一个空白的代码仓库](https://github.com/new)，创建时设置为 private，不要加 readme 和 gitignore。
+可以到 Github 上[创建一个空白的代码仓库](https://github.com/new)，创建时设置为 private，不要加 readme 和 gitignore。我们以你给它取名为 `private-MyTiddlyWiki` 为例，你需要在 TiddlyWiki 里点击搜索框旁边的放大镜图标，打开高级搜索，然后搜索 `$:/config/FileSystemPaths` 并修改它的内容为：
+
+```lisp
+[tag[APrivateContent]addprefix[private-MyTiddlyWiki/tiddlers/]] [tag[$:/tags/trashbin]addprefix[private-MyTiddlyWiki/tiddlers/]]
+```
+
+意思就是把加了 `APrivateContent` 这个标签的文件保存到 `/PublicWiki/tiddlers/private-MyTiddlyWiki/tiddlers` 里面。还有放进垃圾桶的文件也如是。
+
+接着我们来准备 `private-MyTiddlyWiki` 这个文件夹，如果你用了别的名字，注意到 `package.json` 里把 `install:privateRepo` 等等命令里的它都替换成你取的名字，再继续。
 
 同样用 Github Desktop 来 Clone 到本地，让这个代码仓库文件夹和之前 clone 下来的文件夹放在同一个目录下，然后在里面创建一个 tiddlers 文件夹，用于存放你的私有信息。
 
-接着回到你的公有仓库里，按 `ctrl+c` 终止之前运行的 `npm run start:nodejs`，运行 `npm run install:privateRepo` 来把私有仓库软连接到公有仓库里，然后在终端里运行 `npm run install:nodeJSWatcher` 来配置开机自动启动 wiki，并顺便启动 wiki、监听两个仓库里的文件变化，一旦你新加了笔记到 Wiki 里，脚本就会倒计时三十分钟，倒计时结束后就自动同步数据到 Github 上。
+接着回到你的公有仓库里，按 `ctrl+c` 终止之前运行的 `npm run start:wikiServer`，然后运行 `npm run install:privateRepo`（windows 上是 `npm run install:windows:privateRepo`）来把私有仓库软连接到公有仓库里。
+
+如果你给一个 Tiddler 加上 APrivateContent 这个 tag （你也可以通过修改 `$:/config/FileSystemPaths` 来改它），TiddlyWiki 就会把你加到 Wiki 里的内容保存到刚刚创建的私有仓库里的 tiddlers 文件夹里了。
+
+### 配置开机启动
+
+在终端里运行 `npm run install:wikiServer`（windows 上是 `npm run install:windows:wikiServer`）来配置开机自动启动 wiki，并顺便启动 wiki、监听两个仓库里的文件变化，一旦你新加了笔记到 Wiki 里，脚本就会倒计时三十分钟，倒计时结束后就自动同步数据到 Github 上。
+
+这个操作在 MacOS 和 Linux 上需要在终端里输入密码，在 Windows 上会弹出多个 UAC 权限确认弹框，当然是全部点确定了：
+
+![截图 - Windows UAC 权限确认弹框 net](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/allow-uac-net-command-chinese.png)
+
+![截图 - Windows UAC 权限确认弹框 tiddlywiki](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/allow-uac-tiddlywiki-chinese.png)
 
 如果你给一个 Tiddler 加上 APrivateContent 这个 tag，TiddlyWiki 就会把你加到 Wiki 里的内容保存到刚刚创建的私有仓库里的 tiddlers 文件夹里了，而且倒计时三十分钟后会自动备份到 Github 上你的线上私有仓库里。
 
@@ -90,6 +114,8 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 ![把项目导入到 Zeit 上](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/import-to-zeit.png)
 
 然后 Zeit 的 now.sh 部署服务就会在每次你的公开仓库备份到 Github 时，为你部署一个网站啦，类似于 [meme-of-lin-onetwo.now.sh](https://meme-of-lin-onetwo.now.sh/)。
+
+主要如果部署过于频繁，Zeit 会略过一些部署，这可以理解，毕竟我们在薅他们羊毛嘛。
 
 ### 对于非技术人员还是有点复杂的
 
