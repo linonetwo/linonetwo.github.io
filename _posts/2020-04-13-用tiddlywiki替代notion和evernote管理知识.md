@@ -55,7 +55,7 @@ P.S. 如果你和我一样不喜欢在终端里打字输入 `npm run start:nodej
 
 ### 制作桌面 App
 
-接着可以下载一个 [WebCatalog](https://webcatalogapp.com/)，下载打开后，点击 Create Custom App 按钮，然后如下图输入本地 wiki 的网址，并取一个名字、加一个图标：
+接着可以下载一个 [WebCatalog](https://webcatalogapp.com/)，下载打开后，点击 Create Custom App 按钮，然后如下图输入本地 wiki 的网址（注意 [http://127.0.0.1:11012/](http://127.0.0.1:11012/) 前面是 http 而不是 https），并取一个名字、加一个图标：
 
 ![截图 - Tiddlywiki 桌面应用：创建桌面应用](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/webcatalog-localhost-app.png)
 
