@@ -51,6 +51,8 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 ![截图 - 在 vscode 里创建新的终端](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/new-terminal-chinese.png)
 
+这一步出现 WARN 不是出错，可以继续进行下一步，只有 ERROR 才是出错。
+
 依赖安装完成后输入 `npm run start:wikiServer` 启动本地 Wiki 服务器。当然，如果你和我一样不喜欢用命令行在终端里打字输入 `npm run start:wikiServer`，你可以像我一样可以直接展开 VSCode 上的 NPM SCRIPTS，然后点击你该点的按钮来启动 wiki 服务器：
 
 ![截图 - VSCode 里的 NPM  SCRIPTS](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/npm-scripts-chinese.png)
