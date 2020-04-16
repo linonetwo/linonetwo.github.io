@@ -53,7 +53,7 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 依赖安装完成后输入 `npm run start:wikiServer` 启动本地 Wiki 服务器。当然，如果你和我一样不喜欢用命令行在终端里打字输入 `npm run start:wikiServer`，你可以像我一样可以直接展开 VSCode 上的 NPM SCRIPTS，然后点击你该点的按钮来启动 wiki 服务器：
 
-![截图 - VSCode 里的 NPM  SCRIPTS](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/npm-scripts-chinese.png)
+![截图 - VSCode 里的 NPM  SCRIPTS](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/npm-script-chinese.png)
 
 现在你应该可以在浏览器打开 [127.0.0.1:11012](http://127.0.0.1:11012/) 看到你的 wiki 了。如果打不开，可能是因为 [Edge 浏览器无法打开本地服务器提供的网页](https://www.google.com/search?client=firefox-b-d&q=edge+%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80+127)等小问题，Google 一下就能解决。
 
@@ -95,7 +95,7 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 
 在终端里运行 `npm run install:wikiServer`（windows 上是 `npm run install:windows:wikiServer`）来配置开机自动启动 wiki，并顺便启动 wiki、监听两个仓库里的文件变化，一旦你新加了笔记到 Wiki 里，脚本就会倒计时三十分钟，倒计时结束后就自动同步数据到 Github 上。
 
-这个操作在 MacOS 和 Linux 上需要在终端里输入密码，在 Windows 上会弹出多个 UAC 权限确认弹框，当然是全部点确定了：
+这个操作在 MacOS 和 Linux 上需要在终端里输入密码，在 Windows 上会弹出多个 UAC 权限确认弹框，当然是全部点「是」了：
 
 ![截图 - Windows UAC 权限确认弹框 net](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/allow-uac-net-command-chinese.png)
 
@@ -134,6 +134,8 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 ### 添加自定义样式
 
 给一个 Tiddler 加上 `$:/tags/Stylesheet` 标签即可让它在 wiki 启动时加到 wiki 的样式表里，例如我就在[自定义链接样式](https://wiki.onetwo.ren/#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5%E6%A0%B7%E5%BC%8F)里黏贴适配了 Notion 的链接的样式，鼠标悬浮后会低调地变色，凸显一种简约的尊贵。
+
+我还通过添加 `backdrop-filter` 给各种地方加上了毛玻璃效果。等未来不流行毛玻璃效果了，我自己再把它重新设计为最流行的样子。
 
 ## 免费的 TiddlyWiki
 
@@ -193,17 +195,23 @@ TiddlyWiki 里几乎所有功能都是可覆盖的，一般分为三种：
 
 TiddlyWiki 和 Anki 很相似的一点是，笔记和卡片是分离的，也就是笔记只保留内容和元信息，在 Wiki 实际运行时，才通过模板渲染为卡片。所以可以通过写 wikitext 宏或 JS 宏，来在运行时对展示做各种变换。
 
-### 聚合数据
+### 聚合数据及推理
 
 [Datalog 及其方言](https://github.com/tonsky/datascript) 是用于输入知识还有聚合、推理、利用知识的编程语言，虽然很强大，但使用起来还是有一定门槛的。
 
 TiddlyWiki 让我们可以用更容易学会的方式，在美观的界面里为碎片知识加上元信息，例如可以给一个「我的剪刀」的笔记，加上 `location: 客厅` 的元信息，相当于描述了知识「我的剪刀放在客厅里」。这样就可以写一个简单的 filter 来把所有放在客厅里的物品列成一个列表，展示在一个动态生成的笔记里了。
 
-在以后你找不到剪刀的时候，就可以直接搜索「我的剪刀」，然后查看它的 `location` 字段知道它放在哪里。更可以把这些元信息传给一个问答机器人，你语音问他你的剪刀在哪，它通过简单的意图理解、检索、取字段就能帮你找到客厅里的剪刀了。
+在以后你找不到剪刀的时候，就可以直接搜索「我的剪刀」，然后查看它的 `location` 字段知道它放在哪里。更可以把这些元信息传给一个问答机器人，你语音问他你的剪刀在哪，它通过简单的意图理解、检索、推理、取字段就能帮你找到客厅里的剪刀了。
+
+### 图遍历
+
+完善的知识体系常常是一个网状的结构，我通过[鼠标悬浮链接显示相关内容](https://wiki.onetwo.ren/#%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E9%A2%84%E8%A7%88%E5%86%85%E9%83%A8%E9%93%BE%E6%8E%A5)这个插件（当然，经过了我自己的修改），可以展示每个笔记所在的文件夹（[文件夹即标签](https://wiki.onetwo.ren/#%E5%9C%A8%20TiddlyWiki%20%E4%B8%AD%E4%BD%BF%E7%94%A8%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E5%A4%B9)）、反向链接（链入的内容，类似 [RoamResearch](https://nesslabs.com/roam-research-alternatives)）、笔记作为一个文件夹装了什么内容（更确切地说，笔记相当于文件夹的 Readme）。
+
+![截图 - TiddlyWiki 中的 图遍历](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/graph-traverse.png)
 
 ## 结语
 
-TiddlyWiki 的[社区论坛](https://groups.google.com/forum/#!forum/tiddlywiki)非常活跃，每天都能看到新的点子涌现出来，大家处于对这个工具的喜爱，在不断贡献自己的想法和代码来推动 TiddlyWiki 变得越加美观、强大。
+TiddlyWiki 的[社区论坛](https://groups.google.com/forum/#!forum/tiddlywiki)和 [Github 仓库](https://github.com/Jermolene/TiddlyWiki5)非常活跃，每天都能看到新的点子涌现出来。大家出于对这个工具的喜爱，在不断贡献自己的想法和代码来推动 TiddlyWiki 变得越加美观、强大。
 
 我也在做各种尝试，希望把 TiddlyWiki 和 Anki、语音助手、SoLiD POD 连接起来，让它作为一个数字化的我，承载我的各种知识，利用这些知识使我的生活变得更加便利。
 
