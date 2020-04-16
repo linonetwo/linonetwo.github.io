@@ -109,6 +109,8 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 
 首先编辑开放的仓库下的 `now.json` 文件，修改里面的 name 为你希望你的在线 wiki 拥有的名字，只能使用小写英文和下划线。
 
+然后替换 tiddlers 文件夹里的 `favicon.ico` 为你想要的图标，可以用 [favicon-generator.org](https://www.favicon-generator.org/) 来生成一个。
+
 然后到 [免费为程序员部署网站的 Zeit](https://zeit.co/) 上，用 Github 账号登录，点击 Import Project 按钮，然后 From Git Repository → Import Project From Github → 选择你的公开的那个仓库。
 
 ![把项目导入到 Zeit 上](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/import-to-zeit.png)
