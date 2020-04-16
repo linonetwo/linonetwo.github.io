@@ -77,7 +77,7 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 
 之前创建的代码仓库是公开的，所以同步备份上去的 wiki 就相当于你的博客，那如果我们希望添加自己的 TodoList 等等私有内容呢？
 
-可以到 Github 上[创建一个空白的代码仓库](https://github.com/new)，创建时设置为 private，不要加 readme 和 gitignore。我们以你给它取名为 `private-MyTiddlyWiki` 为例，你需要在 TiddlyWiki 里点击搜索框旁边的放大镜图标，打开高级搜索，然后搜索 `$:/config/FileSystemPaths` 并修改它的内容为：
+可以到 Github 上[创建一个空白的代码仓库](https://github.com/new)，创建时设置为 private，不要加 readme 和 gitignore。我们以你给它取名为 `private-MyTiddlyWiki` 为例，你需要在之前配好的 TiddlyWiki 里点击搜索框旁边的放大镜图标，打开高级搜索，然后搜索 `$:/config/FileSystemPaths` 并修改它的内容为（我应该已经帮你修改好了，这里只是说明改名字的话也得改这里）：
 
 ```lisp
 [tag[APrivateContent]addprefix[private-MyTiddlyWiki/tiddlers/]] [tag[$:/tags/trashbin]addprefix[private-MyTiddlyWiki/tiddlers/]]
@@ -87,7 +87,7 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 
 接着我们来准备 `private-MyTiddlyWiki` 这个文件夹，如果你用了别的名字，注意到 `package.json` 里把 `install:privateRepo` 等等命令里的它都替换成你取的名字，再继续。
 
-同样用 Github Desktop 来 Clone 到本地，让这个代码仓库文件夹和之前 clone 下来的文件夹放在同一个目录下，然后在里面创建一个 tiddlers 文件夹，用于存放你的私有信息。
+同样用 Github Desktop 来 Clone 到本地（点击「Setup in Desktop），让这个代码仓库文件夹和之前 clone 下来的文件夹放在同一个目录下（比如都放在 Documents 文件夹里），然后在里面创建一个 tiddlers 文件夹，用于存放你的私有信息。
 
 接着回到你的公有仓库里，按 `ctrl+c` 终止之前运行的 `npm run start:wikiServer`，然后运行 `npm run install:privateRepo`（windows 上是 `npm run install:windows:privateRepo`）来把私有仓库软连接到公有仓库里。
 
