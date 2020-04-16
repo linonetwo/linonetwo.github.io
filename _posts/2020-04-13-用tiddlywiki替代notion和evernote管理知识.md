@@ -45,9 +45,13 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 接着在你账号下刚生成的 Wiki 仓库里点击 Clone or download 按钮，点击 Open in Desktop， 就可以用[桌面应用 Github Desktop](https://desktop.github.com/) 把你的这个 Wiki 同步到桌面了。
 
-接着用[VSCode](https://code.visualstudio.com/)之类的代码编辑器打开刚同步下来的 Wiki 代码仓库，按 `ctrl + ~` 快捷键打开终端，输入 `npm i` 安装 wiki 所需的依赖。
+接着用[VSCode](https://code.visualstudio.com/)之类的代码编辑器打开刚同步下来的 Wiki 代码仓库，按 `ctrl + ~` 快捷键打开终端，输入 `npm i` 安装 wiki 所需的依赖。如果 VSCode 让你安装 git
 
-依赖安装完成后输入 `npm run start:nodejs` 启动 Wiki。现在你应该可以在浏览器打开 [127.0.0.1:11012](http://127.0.0.1:11012/) 看到你的 wiki 了。
+依赖安装完成后输入 `npm run start:nodejs` 启动本地 Wiki 服务器。现在你应该可以在浏览器打开 [127.0.0.1:11012](http://127.0.0.1:11012/) 看到你的 wiki 了。如果打不开，可能是因为 [Edge 浏览器无法打开本地服务器提供的网页](https://www.google.com/search?client=firefox-b-d&q=edge+%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80+127)等小问题，Google 一下就能解决。
+
+P.S. 如果你和我一样不喜欢在终端里打字输入 `npm run start:nodejs`，你可以直接点 VSCode 侧边栏上的 「NPM SCRIPTS」里的按钮来启动 wiki 服务器，如图：
+
+![截图 - VSCode 里的 NPM  SCRIPTS](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/npm-scripts.png)
 
 ### 制作桌面 App
 
@@ -60,6 +64,8 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打开你的 App 后，打开设置界面，里面有一个 Attach to menu bar 的选项，可以再创建一个一模一样的 APP ，勾上这个选项，作为快速搜索小工具使用。
 
 ![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/menubar-tiddlywiki-quick-search-tool.png)
+
+因为 WebCatalog 的 App 模板是放在 Github 上的，所以如果没有对它开翻墙的话，会比较慢，需要等比较久的时间才会下载安装好，翻了墙就很快了。
 
 ### 私有内容
 
