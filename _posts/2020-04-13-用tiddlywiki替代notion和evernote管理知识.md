@@ -67,6 +67,8 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打开你的 App 后，打开设置界面，里面有一个 Attach to menu bar 的选项，可以再创建一个一模一样的 APP ，勾上这个选项，作为快速搜索小工具使用。
 
+这个快速搜索工具的网址我一般是选择填在线部署的 wiki 的网址（比如我的是 `https://wiki.onetwo.ren/`），防止两个 wiki 都和本地服务器同步，有时候会有一些 bug，因为 TiddlyWiki 一开始并不是为多用户的情况设计的。
+
 ![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/menubar-tiddlywiki-quick-search-tool.png)
 
 因为 WebCatalog 的 App 模板是放在 Github 上的，所以如果没有对它开翻墙的话，会比较慢，需要等比较久的时间才会下载安装好，翻了墙就很快了。
