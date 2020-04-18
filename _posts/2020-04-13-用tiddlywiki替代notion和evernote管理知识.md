@@ -93,7 +93,14 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 
 如果你给一个 Tiddler 加上 APrivateContent 这个 tag （你也可以通过修改 `$:/config/FileSystemPaths` 来改它），TiddlyWiki 就会把你加到 Wiki 里的内容保存到刚刚创建的私有仓库里的 tiddlers 文件夹里了。
 
-### 配置开机启动
+### 配置开机启动和自动同步
+
+首先按着[Git 配置文档](https://git-scm.com/docs/gitcredentials) 配好命令行的 git：
+
+```shell
+git config credential.https://github.com.username linonetwo
+git config credential.helper "$helper $options"
+```
 
 在终端里运行 `npm run install:wikiServer`（windows 上是 `npm run install:windows:wikiServer`）来配置开机自动启动 wiki，并顺便启动 wiki、监听两个仓库里的文件变化，一旦你新加了笔记到 Wiki 里，脚本就会倒计时三十分钟，倒计时结束后就自动同步数据到 Github 上。
 
