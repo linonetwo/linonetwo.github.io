@@ -110,6 +110,10 @@ git config credential.helper "$helper $options"
 
 ![截图 - Windows UAC 权限确认弹框 tiddlywiki](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/allow-uac-tiddlywiki-chinese.png)
 
+在 Mac 上，在终端输入 `code /Library/Logs/TiddlyWiki` 可以看到错误报告，如果说 `no permission blabla` 什么的，可以通过运行 node 访问所有文件来解决：
+
+![截图 - Windows UAC 权限确认弹框 tiddlywiki](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/allow-node-js-access-fs.png)
+
 如果你给一个 Tiddler 加上 APrivateContent 这个 tag，TiddlyWiki 就会把你加到 Wiki 里的内容保存到刚刚创建的私有仓库里的 tiddlers 文件夹里了，而且倒计时三十分钟后会自动备份到 Github 上你的线上私有仓库里。
 
 ### 部署公开内容为网站
