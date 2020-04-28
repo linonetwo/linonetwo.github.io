@@ -102,6 +102,16 @@ git config credential.https://github.com.username linonetwo
 git config credential.helper "$helper $options"
 ```
 
+这里的 `linonetwo` 改成你自己的 github 账号名。
+
+然后打开这个仓库的网站，把 ssh 形式的仓库地址配置到本地仓库里，这是为了避免[无法同步的问题](https://github.com/simonthum/git-sync/issues/17)：
+
+![copy-ssh](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/copy-ssh.png)
+
+![repository-setting](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/repository-setting.png)
+
+![use-ssh-repo](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/use-ssh-repo.png)
+
 在终端里运行 `npm run install:wikiServer`（windows 上是 `npm run install:windows:wikiServer`）来配置开机自动启动 wiki，并顺便启动 wiki、监听两个仓库里的文件变化，一旦你新加了笔记到 Wiki 里，脚本就会倒计时三十分钟，倒计时结束后就自动同步数据到 Github 上。
 
 这个操作在 MacOS 和 Linux 上需要在终端里输入密码，在 Windows 上会弹出多个 UAC 权限确认弹框，当然是全部点「是」了：
