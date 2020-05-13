@@ -166,6 +166,17 @@ git config credential.helper "$helper $options"
 
 这相当于把 Github 作为免费无限容量的图床来使用了，只要浏览量不是特别大，就不会收到封禁邮件。
 
+### 数据自有
+
+在打开我的 Wiki 后，你可以随意编辑它，这只会改动浏览器里的缓存的 wiki 内容，不会影响我电脑上本地的内容、也不会影响我 Github 上的备份。
+
+在浏览器里的缓存变化之后， TiddlyWiki 是怎么把内容持久化到别的地方的呢？就是靠 Saver（粗粒度保存器）和 SyncAdaptor（细粒度同步器）了。
+
+官方有一个 GitHubSaver 插件，在填入 Github Token 之后可以在移动端、桌面 Web 端直接把修改后的 Wiki 保存到 Github 上，变成一个 HTML 文件备份。
+而在桌面端启动 NodeJS 版 wiki 之后，则是一个 TiddlyWebSyncAdaptor 在把修改的 Tiddler 同步到文件系统上备份。
+
+在未来，我们可以用 [solid-tiddlywiki-syncadaptor (WIP)](https://github.com/linonetwo/solid-tiddlywiki-syncadaptor) 等自定义的同步器，把数据保存到任何我们想保存的地方，不受制于大公司，也不需要像用印象笔记一样购买会员服务。数据怎么保存、存在哪里都可以我们自己自由定制。
+
 ## 强大的 TiddlyWiki
 
 我关注一个信息是什么，它从哪里来，要到哪里去……也就是关于信息的信息：标签、源谱、关联。我们的大脑会保存和一个信息相关的很多其他信息，而如果一个知识管理系统也同样保存了这些元信息，就可以用很贴近我们大脑的形式存储知识，让我们查找、利用知识都更加便捷。
