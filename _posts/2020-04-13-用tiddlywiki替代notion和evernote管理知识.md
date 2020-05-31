@@ -245,7 +245,8 @@ TiddlyWiki 让我们可以用更容易学会的方式，在美观的界面里为
 
 ## 结语
 
-TiddlyWiki 的[社区论坛](https://groups.google.com/forum/#!forum/tiddlywiki)和 [Github 仓库](https://github.com/Jermolene/TiddlyWiki5)非常活跃，每天都能看到新的点子涌现出来。大家出于对这个工具的喜爱，在不断贡献自己的想法和代码来推动 TiddlyWiki 变得越加美观、强大。
+TiddlyWiki 的[社区论坛](https://groups.google.com/forum/#!forum/tiddlywiki)和 [Github 仓库](https://github.com/Jermolene/TiddlyWiki5)非常活跃，每天都能看到新的点子涌现出来。大家出于对这个工具的喜爱，在不断贡献自己的想法和代码来推动 TiddlyWiki 变得越加美观、强大。我也是看到一个 [Telegram 笔记讨论社区](https://t.me/joinchat/Ag98F0DdcZr1X1xS6lJsyA
+)里的方案分享，[得到启发才真正用起了 TiddlyWiki](https://github.com/DiamondYuan/wiki/issues/3)。
 
 我也在做各种尝试，希望把 TiddlyWiki 和 Anki、语音助手、SoLiD POD 连接起来，让它作为一个数字化的我，承载我的各种知识，利用这些知识使我的生活变得更加便利。
 
