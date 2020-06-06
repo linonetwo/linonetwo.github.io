@@ -13,7 +13,7 @@ twitter_text:
 introduction: '配置免费云同步的非线性知识管理系统 TiddlyWiki，身兼私有笔记系统和公开 Wiki 二职'
 ---
 
-我的 Wiki：[wiki.onetwo.ren](https://wiki.onetwo.ren/)
+我的 Wiki：[wiki.onetwo.ren](https://onetwo.ren/wiki/)
 
 我曾经用过很多年的印象笔记，里面装着四处收集来的碎片内容，比如[什么是「共产中文腔调」？ - 调查类问题 - 知乎](http://www.zhihu.com/question/19687065)、我高考的分数截图等等；我也用了几年的 Notion，用它记待办事项、给认识的人写备忘小传；我还用了很久的 Anki，用它把英语单词、数学公式、算法套路等碎片知识装进脑中；我也了解过 Roam Research，它可以通过双向链接增加笔记的可发现性。
 
@@ -67,7 +67,7 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打开你的 App 后，打开设置界面，里面有一个 Attach to menu bar 的选项，可以再创建一个一模一样的 APP ，勾上这个选项，作为快速搜索小工具使用。
 
-这个快速搜索工具的网址我一般是选择填在线部署的 wiki 的网址（比如我的是 `https://wiki.onetwo.ren/`），防止两个 wiki 都和本地服务器同步，有时候会有一些 bug，因为 TiddlyWiki 一开始并不是为多用户的情况设计的。
+这个快速搜索工具的网址我一般是选择填在线部署的 wiki 的网址（比如我的是 `https://onetwo.ren/wiki/`），防止两个 wiki 都和本地服务器同步，有时候会有一些 bug，因为 TiddlyWiki 一开始并不是为多用户的情况设计的。
 
 ![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/menubar-tiddlywiki-quick-search-tool.png)
 
@@ -156,13 +156,13 @@ git config credential.helper "$helper $options"
 
 ### 添加自定义样式
 
-给一个 Tiddler 加上 `$:/tags/Stylesheet` 标签即可让它在 wiki 启动时加到 wiki 的样式表里，例如我就在[自定义链接样式](https://wiki.onetwo.ren/#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5%E6%A0%B7%E5%BC%8F)里黏贴适配了 Notion 的链接的样式，鼠标悬浮后会低调地变色，凸显一种简约的尊贵。
+给一个 Tiddler 加上 `$:/tags/Stylesheet` 标签即可让它在 wiki 启动时加到 wiki 的样式表里，例如我就在[自定义链接样式](https://onetwo.ren/wiki/#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5%E6%A0%B7%E5%BC%8F)里黏贴适配了 Notion 的链接的样式，鼠标悬浮后会低调地变色，凸显一种简约的尊贵。
 
 我还通过添加 `backdrop-filter` 给各种地方加上了毛玻璃效果。等未来不流行毛玻璃效果了，我自己再把它重新设计为最流行的样子。
 
 ## 免费的 TiddlyWiki
 
-往 TiddlyWiki 里拖很多图片之后，通过 now.sh 发布的博客可能会越变越大。所以我通过[把图片文件的链接改成指向 Github 上的图片](https://wiki.onetwo.ren/#%E5%A4%96%E7%BD%AE%E6%96%87%E4%BB%B6)，来减小生成的 HTML 的体积。
+往 TiddlyWiki 里拖很多图片之后，通过 now.sh 发布的博客可能会越变越大。所以我通过[把图片文件的链接改成指向 Github 上的图片](https://onetwo.ren/wiki/#%E5%A4%96%E7%BD%AE%E6%96%87%E4%BB%B6)，来减小生成的 HTML 的体积。
 
 这相当于把 Github 作为免费无限容量的图床来使用了，只要浏览量不是特别大，就不会收到封禁邮件。
 
@@ -213,7 +213,7 @@ git config credential.helper "$helper $options"
 
 我已经习惯了用方便的 [Copy On Select Firefox 插件](https://addons.mozilla.org/en-US/firefox/addon/copy-on-select)，现在到了 TiddlyWiki 桌面 App 里，我经常还是以为选中了就复制了，然后黏贴到别的地方才发现其实并没有复制，很不习惯。
 
-这个功能 TiddlyWiki 显然不会自带，目前也没有搜到插件可以做这件事。所以我自己重新写了一个[适配 TiddlyWiki 的小脚本](https://wiki.onetwo.ren/#%E9%80%89%E4%B8%AD%E6%96%87%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%A4%8D%E5%88%B6)，做成启动脚本。脚本比插件要轻量，不需要打包发布等等繁琐的流程，自己想要啥功能半小时写完调试好就能用。
+这个功能 TiddlyWiki 显然不会自带，目前也没有搜到插件可以做这件事。所以我自己重新写了一个[适配 TiddlyWiki 的小脚本](https://onetwo.ren/wiki/#%E9%80%89%E4%B8%AD%E6%96%87%E6%9C%AC%E8%87%AA%E5%8A%A8%E5%A4%8D%E5%88%B6)，做成启动脚本。脚本比插件要轻量，不需要打包发布等等繁琐的流程，自己想要啥功能半小时写完调试好就能用。
 
 通过把 JS 代码加上 `$:/tags/RawMarkup Tag` 、并用 `<script type="text/javascript"> </script>` 包裹，就可以让这段代码在 wiki 启动时执行了。
 
@@ -224,8 +224,8 @@ git config credential.helper "$helper $options"
 TiddlyWiki 里几乎所有功能都是可覆盖的，一般分为三种：
 
 1. wikitext ，主要用于写 UI，例如卡片的渲染模板，修改后可以做到「在每个卡片底下显示相关卡片」等功能
-1. filter ，可以和 wikitext 结合起来写渲染模板，也可以用于「[把加了 APrivateContent 标签的笔记保存到私有仓库里面](https://wiki.onetwo.ren/#%24%3A%2Fconfig%2FFileSystemPaths)」等功能
-1. JS，所有 wikitext 和 filter 最终都要依赖 JS 的实现，覆盖想要修改的 JS 可以实现「[鼠标悬浮预览插件本来不会自动关上预览窗口，我让它自动关闭](https://wiki.onetwo.ren/#%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E9%A2%84%E8%A7%88%E5%86%85%E9%83%A8%E9%93%BE%E6%8E%A5)」等功能
+1. filter ，可以和 wikitext 结合起来写渲染模板，也可以用于「[把加了 APrivateContent 标签的笔记保存到私有仓库里面](https://onetwo.ren/wiki/#%24%3A%2Fconfig%2FFileSystemPaths)」等功能
+1. JS，所有 wikitext 和 filter 最终都要依赖 JS 的实现，覆盖想要修改的 JS 可以实现「[鼠标悬浮预览插件本来不会自动关上预览窗口，我让它自动关闭](https://onetwo.ren/wiki/#%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E9%A2%84%E8%A7%88%E5%86%85%E9%83%A8%E9%93%BE%E6%8E%A5)」等功能
 
 TiddlyWiki 和 Anki 很相似的一点是，笔记和卡片是分离的，也就是笔记只保留内容和元信息，在 Wiki 实际运行时，才通过模板渲染为卡片。所以可以通过写 wikitext 宏或 JS 宏，来在运行时对展示做各种变换。
 
@@ -239,7 +239,7 @@ TiddlyWiki 让我们可以用更容易学会的方式，在美观的界面里为
 
 ### 图遍历
 
-完善的知识体系常常是一个网状的结构，我通过[鼠标悬浮链接显示相关内容](https://wiki.onetwo.ren/#%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E9%A2%84%E8%A7%88%E5%86%85%E9%83%A8%E9%93%BE%E6%8E%A5)这个插件（当然，经过了我自己的修改），可以展示每个笔记所在的文件夹（[文件夹即标签](https://wiki.onetwo.ren/#%E5%9C%A8%20TiddlyWiki%20%E4%B8%AD%E4%BD%BF%E7%94%A8%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E5%A4%B9)）、反向链接（链入的内容，类似 [RoamResearch](https://nesslabs.com/roam-research-alternatives)）、笔记作为一个文件夹装了什么内容（更确切地说，笔记相当于文件夹的 Readme）。
+完善的知识体系常常是一个网状的结构，我通过[鼠标悬浮链接显示相关内容](https://onetwo.ren/wiki/#%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E9%A2%84%E8%A7%88%E5%86%85%E9%83%A8%E9%93%BE%E6%8E%A5)这个插件（当然，经过了我自己的修改），可以展示每个笔记所在的文件夹（[文件夹即标签](https://onetwo.ren/wiki/#%E5%9C%A8%20TiddlyWiki%20%E4%B8%AD%E4%BD%BF%E7%94%A8%E8%99%9A%E6%8B%9F%E6%96%87%E4%BB%B6%E5%A4%B9)）、反向链接（链入的内容，类似 [RoamResearch](https://nesslabs.com/roam-research-alternatives)）、笔记作为一个文件夹装了什么内容（更确切地说，笔记相当于文件夹的 Readme）。
 
 ![截图 - TiddlyWiki 中的 图遍历](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/graph-traverse.png)
 
