@@ -13,7 +13,7 @@ twitter_text:
 introduction: '配置免费云同步的非线性知识管理系统 TiddlyWiki，身兼私有笔记系统和公开 Wiki 二职'
 ---
 
-我的 Wiki：[wiki.onetwo.ren](https://onetwo.ren/wiki/)
+我的 Wiki：[onetwo.ren/wiki](https://onetwo.ren/wiki/)
 
 注意：我正在开发一个零配置的 TiddlyWiki 桌面版 APP [tiddly-gittly/TiddlyGit-Desktop](https://github.com/tiddly-gittly/TiddlyGit-Desktop)，欢迎 star 和 watch，再等一个月就不需要按着本教程的步骤来自己配置啦，一键打开即可使用强大美观好用的 TiddlyWiki。
 
