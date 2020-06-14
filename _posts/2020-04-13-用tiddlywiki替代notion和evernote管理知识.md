@@ -15,6 +15,10 @@ introduction: '配置免费云同步的非线性知识管理系统 TiddlyWiki，
 
 我的 Wiki：[wiki.onetwo.ren](https://onetwo.ren/wiki/)
 
+注意：我正在开发一个零配置的 TiddlyWiki 桌面版 APP [tiddly-gittly/TiddlyGit-Desktop](https://github.com/tiddly-gittly/TiddlyGit-Desktop)，欢迎 star 和 watch，再等一个月就不需要按着本教程的步骤来自己配置啦，一键打开即可使用强大美观好用的 TiddlyWiki。
+
+---
+
 我曾经用过很多年的印象笔记，里面装着四处收集来的碎片内容，比如[什么是「共产中文腔调」？ - 调查类问题 - 知乎](http://www.zhihu.com/question/19687065)、我高考的分数截图等等；我也用了几年的 Notion，用它记待办事项、给认识的人写备忘小传；我还用了很久的 Anki，用它把英语单词、数学公式、算法套路等碎片知识装进脑中；我也了解过 Roam Research，它可以通过双向链接增加笔记的可发现性。
 
 但这些工具似乎都不关注两个对我来说很关键的概念：「元信息」和「自动化」。我认为，只有能充分保存元信息的自动化的知识管理系统才能称得上「好用」。
@@ -39,7 +43,7 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 ![截图 - Tiddlywiki 桌面应用：目录栏快速搜索小工具](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/use-this-template.png)
 
-在接下来的表单里填好 Wiki 名字等信息（可能会说你给 Wiki 取的名字不行，但是有时候别管它直接点下一步也行），这样一个配置好的 Wiki 仓库就会出现在你的 Github 账号下了。
+在接下来的表单里填好 Wiki 名字等信息（例如 `wiki`）（可能会说你给 Wiki 取的名字不行，但是有时候别管它直接点下一步也行），这样一个配置好的 Wiki 仓库就会出现在你的 Github 账号下了。
 
 接着在你账号下刚生成的 Wiki 仓库里点击 Clone or download 按钮，点击 Open in Desktop， 就可以用[桌面应用 Github Desktop](https://desktop.github.com/) 把你的这个 Wiki 同步到桌面了。你在 Github Desktop 上就可以看到如下的界面：
 
@@ -55,15 +59,15 @@ TiddlyWiki 是一个自由的软件，需要有一定的技术和折腾劲来配
 
 ![截图 - VSCode 里的 NPM  SCRIPTS](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/npm-script-chinese.png)
 
-现在你应该可以在浏览器打开 [127.0.0.1:11012](http://127.0.0.1:11012/) 看到你的 wiki 了。如果打不开，可能是因为 [Edge 浏览器无法打开本地服务器提供的网页](https://www.google.com/search?client=firefox-b-d&q=edge+%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80+127)等小问题，Google 一下就能解决。
+现在你应该可以在浏览器打开 [127.0.0.1:5013](http://127.0.0.1:5013/) 看到你的 wiki 了。如果打不开，可能是因为 [Edge 浏览器无法打开本地服务器提供的网页](https://www.google.com/search?client=firefox-b-d&q=edge+%E6%97%A0%E6%B3%95%E6%89%93%E5%BC%80+127)等小问题，Google 一下就能解决。
 
 ### 制作桌面 App
 
-接着可以下载一个 [WebCatalog](https://webcatalogapp.com/)，下载打开后，点击 Create Custom App 按钮，然后如下图输入本地 wiki 的网址（注意 [http://127.0.0.1:11012/](http://127.0.0.1:11012/) 前面是 http 而不是 https），并取一个名字、加一个图标：
+接着可以下载一个 [WebCatalog](https://webcatalogapp.com/)，下载打开后，点击 Create Custom App 按钮，然后如下图输入本地 wiki 的网址（注意 [http://127.0.0.1:5013/](http://127.0.0.1:5013/) 前面是 http 而不是 https），并取一个名字、加一个图标：
 
 ![截图 - Tiddlywiki 桌面应用：创建桌面应用](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/webcatalog-localhost-app.png)
 
-（纯色图标可以下载我做的[黑色](https://github.com/linonetwo/Meme-of-LinOnetwo/blob/7033fc1e1ca60f4e825d4fb8dc5fc79b5bcffd3b/MemeOfLinonetwo/tiddlers/TiddlyWikiIconBlack.png)和[白色](https://github.com/linonetwo/Meme-of-LinOnetwo/blob/7033fc1e1ca60f4e825d4fb8dc5fc79b5bcffd3b/MemeOfLinonetwo/tiddlers/TiddlyWikiIconWhite.png)的，或者去网上搜原版蓝色的）
+（纯色图标可以下载我做的[黑色](https://github.com/linonetwo/wiki/blob/7033fc1e1ca60f4e825d4fb8dc5fc79b5bcffd3b/MemeOfLinonetwo/tiddlers/TiddlyWikiIconBlack.png)和[白色](https://github.com/linonetwo/wiki/blob/7033fc1e1ca60f4e825d4fb8dc5fc79b5bcffd3b/MemeOfLinonetwo/tiddlers/TiddlyWikiIconWhite.png)的，或者去网上搜原版蓝色的）
 
 WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打开你的 App 后，打开设置界面，里面有一个 Attach to menu bar 的选项，可以再创建一个一模一样的 APP ，勾上这个选项，作为快速搜索小工具使用。
 
@@ -73,11 +77,15 @@ WebCatalog 就会帮你把你的 Wiki 打包成一个桌面 App 啦！而且打�
 
 因为 WebCatalog 的 App 模板是放在 Github 上的，所以如果没有对它开翻墙的话，会比较慢，需要等比较久的时间才会下载安装好，翻了墙就很快了。
 
+### 配置用户名
+
+注意用 VSCode 打开 `package.json` 修改一下里面的用户名，从 `林一二` 改成你的名字。
+
 ### 私有内容
 
 之前创建的代码仓库是公开的，所以同步备份上去的 wiki 就相当于你的博客，那如果我们希望添加自己的 TodoList 等等私有内容呢？
 
-可以到 Github 上[创建一个空白的代码仓库](https://github.com/new)，创建时设置为 private，不要加 readme 和 gitignore。我们以你给它取名为 `private-MyTiddlyWiki` 为例，你需要在之前配好的 TiddlyWiki 里点击搜索框旁边的放大镜图标，打开高级搜索，然后搜索 `$:/config/FileSystemPaths` 并修改它的内容为（我应该已经帮你修改好了，这里只是说明改名字的话也得改这里）：
+可以到 Github 上[创建一个空白的代码仓库](https://github.com/new)，创建时设置为 private，不要加 readme 和 gitignore。我们以你给它取名为 `private-MyTiddlyWiki` 为例，你需要在之前配好的 TiddlyWiki 里点击搜索框旁边的放大镜图标，打开高级搜索，然后搜索 `$:/config/FileSystemPaths` 并修改它的内容为：
 
 ```lisp
 [tag[APrivateContent]addprefix[private-MyTiddlyWiki/tiddlers/]] [tag[$:/tags/trashbin]addprefix[private-MyTiddlyWiki/tiddlers/]]
@@ -130,17 +138,17 @@ git config credential.helper "$helper $options"
 
 既然我们有一些开放的内容，为什么不把它们发布成一个有自己域名的网站呢？这样你可以把你的一些笔记很方便地分享给朋友。
 
-首先编辑开放的仓库下的 `now.json` 文件，修改里面的 name 为你希望你的在线 wiki 拥有的名字，只能使用小写英文和下划线。
+本模板中已经配置好了 Github Actions，当你备份 Wiki 到云端时，会自动把你的公开 wiki 中的内容发布为静态博客。访问地址类似 `linonetwo.github.io/wiki` ，将此处的 `linonetwo` 改成你的 Github 用户名，将 `wiki` 改成你的仓库名，有可能你之前也按我的建议设置成 `wiki` 了。
 
-然后替换 tiddlers 文件夹里的 `favicon.ico` 为你想要的图标，可以用 [favicon-generator.org](https://www.favicon-generator.org/) 来生成一个。
+如果你已经提交过一次备份，那么就可以试着访问一下啦！
 
-然后到 [免费为程序员部署网站的 Zeit](https://zeit.co/) 上，用 Github 账号登录，点击 Import Project 按钮，然后 From Git Repository → Import Project From Github → 选择你的公开的那个仓库。
+### 插件仓库
 
-![把项目导入到 Zeit 上](https://raw.githubusercontent.com/linonetwo/linonetwo.github.io/master/assets/img/posts/tiddlywiki/import-to-zeit.png)
+本模板中已经预置了几个插件仓库，点击右上角的「打开控制台」按钮打开 `ControlPanel` 后，就可以在「插件」标签页里点击「获取更多插件」看到它们了。
 
-然后 Zeit 的 now.sh 部署服务就会在每次你的公开仓库备份到 Github 时，为你部署一个网站啦，类似于 [meme-of-lin-onetwo.now.sh](https://meme-of-lin-onetwo.now.sh/)。
+你可以安装我的 ItonNote PluginLibrary 里的各种其他插件，例如 `copy-on-select` 提供了选中即复制的快捷功能、`inverse-link-and-folder` 提供了反向链接等等。
 
-主要如果部署过于频繁，Zeit 会略过一些部署，这可以理解，毕竟我们在薅他们羊毛嘛。
+很多插件我还开发到一半，因为我最近忙于零配置的 TiddlyWiki 桌面版 APP [tiddly-gittly/TiddlyGit-Desktop](https://github.com/tiddly-gittly/TiddlyGit-Desktop)。
 
 ### 对于非技术人员还是有点复杂的
 
