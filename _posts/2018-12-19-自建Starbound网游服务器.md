@@ -24,6 +24,10 @@ introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还
 
 于是我先拿自己的 vultr 服务器试了一下，感觉国外 ping 值 200ms 以上的话，联机体验还是不行，有时候会看到朋友的角色定住不动，或者朋友反映怪打不死之类的。后来换到阿里云就好多了，基本和在一个屋子里玩一样了。
 
+我 18 年使用了阿里云学生版，进入副本会卡，但是便宜。20 年我采用华为云按需计费。
+
+注意要在网络权限组里开启 21025 端口。
+
 ### 使用 LinuxGSM
 
 最开始我参考了一个讲如何手工用 steam 命令行工具下载游戏然后用 `screen` 这个 Linux 程序来维护服务器的[教程](https://steamcommunity.com/sharedfiles/filedetails/?l=german&id=200785834)，还有 [Guide:LinuxServerSetup](https://starbounder.org/Guide:LinuxServerSetup)。
@@ -81,6 +85,15 @@ Redirecting stderr to '/home/sbserver/.local/share/Steam/logs/stderr.txt'
 
 #### 安装 Mod
 
+先进入 steamcmd，用如下命令找到 Steam 安装目录，steam 从创意工坊下载的 mod 都会放在里面，我们需要配置 Starbound 服务器找到这些 mod。
+
+```
+Steam>install_folder_list
+Index 0 = "/home/sbserver/.local/share/Steam" 27.92 GB free disk space
+```
+
+这也就是我们要在下面的 `serverfiles/linux/sbinit.config` 里用 `../../.local/share/Steam/steamapps/workshop/content/211820` 的原因。
+
 安装 mod 得一个个输入 mod 在创意工坊的代码，然后用 steam 的命令行工具来安装，mod 的创意工坊代码就是其网址 [`https://steamcommunity.com/sharedfiles/filedetails/?id=807695810`](https://steamcommunity.com/sharedfiles/filedetails/?id=807695810) 中 `id=` 后面的那串数字。
 
 好在我早就把自用的 mod [放进了一个合集里](https://steamcommunity.com/sharedfiles/filedetails/?id=1267792017)，以前是方便了联机的朋友一键订阅，现在就是可以从它直接生成自动操作 steam 命令行工具的脚本，不过因为我不是很熟悉 sed 和 tee 的用法，有时候脚本内容会被追加到 `moddownload.sh` 里面，有时候却不会，不是很稳定：
@@ -95,11 +108,10 @@ echo login 账号填这 密码填这 > moddownload.sh && curl -s --data "collect
 接着要用另一个脚本生成 `serverfiles/linux/sbinit.config` ，它就相当于你想启动的 mod 的列表，里面放了一大列 steam 命令行工具下载了的 mod 的存放路径：
 
 ```shell
-
 echo -e "{\n  \"assetDirectories\": [\n    \"../assets/\",\n    \"../mods/\",\n    " && \
 curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
 | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
-| sed 's#^#"../../Steam/steamapps/workshop/content/211820/#' | sed 's#/"#/#' | tr -t '\n' ',' && \
+| sed 's#^#"../../.local/share/Steam/steamapps/workshop/content/211820/#' | sed 's#/"#/#' | tr -t '\n' ',' && \
 echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
 ```
 
@@ -130,6 +142,16 @@ echo -e "\b\b\n  ],\n  \"storageDirectory\": \"../storage/\"\n}\n"
 于是我在 `/etc/sysctl.conf` 里设置了 `vm.swappiness = 5` ，果然显著降低了 kswapd0 搬运内存的意愿，现在只有内存仅剩 5% 的时候它才开始搬运内容啦~再进入副本果然就是一点也不卡了。
 
 然后未雨绸缪，我打算把 sbserver 用户下的所有进程的优先级都默认提高，遂创建 `/etc/security/limits.d/sbserver-priority.conf` 文件，写入 `sbserver hard priority -20` ，把默认的 nice 值提到和 kswapd0 一样高。重启后再用 `ps -efl | grep starbound` 一看，果然 nice 都变成和系统进程一个级别的 -20 了，而优先级会比系统进程的 80 低一点，只有 60，这样游戏流畅的同时系统应该也不会崩吧。
+
+### 开机启动
+
+我选用了[linux设置开机自启动脚本的最佳方式](https://blog.csdn.net/qq_35440678/article/details/80489102)里 contab 那种，新建了一个 sh 文件来执行 `@reboot /home/sbserver/start_sb_at_boot.sh`，sh 的内容为 `cd /home/sbserver && ./sbserver start`，要记得 `chmod +x ./start_sb_at_boot.sh`
+
+### 查看 Log
+
+可以用 `./sbserver console` 来看 log。
+
+退出是 `ctrl+b` 再按 `d`，而不是 `ctrl+c`。
 
 最后要赞美 [zeit 公司](https://zeit.co/)，他们开发的 [serve](https://www.npmjs.com/package/serve) 在我查看 mod 列表、阅读 log、翻阅 mod 路径的过程中起了很大的作用。在装好 nodejs 之后，再装上 serve，然后 `serve /home/sbserver` ，就可以用这个简洁易用的 web 界面来查看服务器上的数据了。（当然要事先在服务器的安全组里设置 5000 端口仅能从我自己的电脑的 IP 可访问，以保证安全）
 
