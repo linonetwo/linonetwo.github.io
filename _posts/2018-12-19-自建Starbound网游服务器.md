@@ -20,11 +20,66 @@ introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还
 
 以前和朋友用 Steam 连 Starbound 的时候，如果我用我的台式电脑来作为主机，朋友跟我在一个局域网，那样联机体验还不错。但是如果不在同一个屋子里联机的时候，体验就好不起来了，而且换电脑之后星球上的建筑等数据是不会被 Steam 云同步的，只有角色数据会云同步，要是能自己搭一个服务器，就可以当网游玩了，不用担心备份和 Steam 联机的延迟啦。
 
+### 国外服务器用不得
+
 于是我先拿自己的 vultr 服务器试了一下，感觉国外 ping 值 200ms 以上的话，联机体验还是不行，有时候会看到朋友的角色定住不动，或者朋友反映怪打不死之类的。后来换到阿里云就好多了，基本和在一个屋子里玩一样了。
+
+### 使用 LinuxGSM
 
 最开始我参考了一个讲如何手工用 steam 命令行工具下载游戏然后用 `screen` 这个 Linux 程序来维护服务器的[教程](https://steamcommunity.com/sharedfiles/filedetails/?l=german&id=200785834)，还有 [Guide:LinuxServerSetup](https://starbounder.org/Guide:LinuxServerSetup)。
 
 不过后来我发现这实在是不好维护，还是使用自动化的工具 [LinuxGSM](https://linuxgsm.com/lgsm/sbserver/) 来得好，这是一个守护 starbound 游戏服务器的程序，还能自动安装游戏，反正能省去一些手工劳动吧。
+
+### LinuxGSM 教程中没提及的部分
+
+我们的安装流程是：
+
+1. 安装 LinuxGSM （看官方教程即可）
+1. 配置用户名密码和 Hosts
+1. 配置 Steam Guard
+1. 安装 Mod
+1. 启动游戏
+
+注意官网教程中的依赖少了以下几项，需要自己额外安装上：
+
+```shell
+apt install libsdl2-2.0-0 libsdl2-2.0-0:i386 # 解决报错 SDL not found and Failed to set thread priority: per-thread setup failed
+apt install jq netcat lib32stdc++6 steamcmd # steamcmd 的依赖
+```
+
+由于众所周知的原因，我们需要用 root 账号输入 `vim /etc/hosts` 添加以下的域名解析（若 LinuxGSM 下载脚本失败说明第一个失效，若 steam 无法更新说明第二个失效，需自行更换为有效的）：
+
+```hosts
+# gfw
+199.232.4.133 raw.githubusercontent.com
+104.78.74.220 steamcommunity.com
+```
+
+接着需要按 LinuxGSM 教程中的方法将自己的用户名密码填写到[指定位置](https://docs.linuxgsm.com/steamcmd#steam-user-login)。
+
+```
+steamuser="linonetwo012"
+steampass='pswd'
+```
+
+安装过程中要注意自己的邮箱，如果收到了 Steam 发来的邮件，而且安装过程卡住如下，则需要黏贴上刚收到的验证码，然后按回车：
+
+```shell
+sbserver@starbound-game:~$ ./sbserver update
+[ ERROR ] Updating sbserver: No appmanifest_211820.acf found
+[ INFO ] Updating sbserver: Forcing update to correct issue
+[ START ] Updating sbserver: SteamCMD
+RFXJR
+
+Redirecting stderr to '/home/sbserver/.local/share/Steam/logs/stderr.txt'
+[  0%] Checking for available updates...
+```
+
+我是在第一次 `./sbserver install` 的时候安装失败了，因为没有输入验证码就无法下载游戏，所以我用 `./sbserver update` 再次安装。
+
+然后再开始安装 `./sbserver install`，装的时候注意输入验证码。
+
+#### 安装 Mod
 
 安装 mod 得一个个输入 mod 在创意工坊的代码，然后用 steam 的命令行工具来安装，mod 的创意工坊代码就是其网址 [`https://steamcommunity.com/sharedfiles/filedetails/?id=807695810`](https://steamcommunity.com/sharedfiles/filedetails/?id=807695810) 中 `id=` 后面的那串数字。
 
@@ -34,7 +89,7 @@ introduction: '在阿里云上架设 Starbound 服务器踩过的一些坑，还
 
 echo login 账号填这 密码填这 > moddownload.sh && curl -s --data "collectioncount=1&publishedfileids[0]=合集的ID填这" https://api.steampowered.com/ISteamRemoteStorage/GetCollectionDetails/v1/ \
 | jq '.response.collectiondetails[] | .children[] | .publishedfileid' \
-| sed 's/^/workshop_download_item 211820 /' | tee -a moddownload.sh && echo quit >> moddownload.sh && ./steamcmd/steamcmd.sh +runscript ../moddownload.sh
+| sed 's/^/workshop_download_item 211820 /' | tee -a moddownload.sh && echo quit >> moddownload.sh && steamcmd +runscript /home/sbserver/moddownload.sh
 ```
 
 接着要用另一个脚本生成 `serverfiles/linux/sbinit.config` ，它就相当于你想启动的 mod 的列表，里面放了一大列 steam 命令行工具下载了的 mod 的存放路径：
